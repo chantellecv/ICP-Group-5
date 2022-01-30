@@ -1,11 +1,13 @@
 package com.moony;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.HashMap;
 
 public class Main {
     // global HashMap
     public static HashMap<String, String> userAccounts = new HashMap <String, String>();
+    public static HashMap<String, List<String>> userProfile = new HashMap<String, List<String>>();
 
     public static void main(String[] args) {
         System.out.println("Let's get this over with.");
@@ -14,6 +16,8 @@ public class Main {
         System.out.println(userAccounts);
 
         login();
+
+        updateProfile();
     }
 
     public static void createAccount() {
@@ -48,7 +52,9 @@ public class Main {
         }
     }
 
-    public static void updateProfile() {
+    public static void updateProfile(String email, String password) {
+        // first & last name, year group, Current GPA, date of birth
+
 
     }
 }
