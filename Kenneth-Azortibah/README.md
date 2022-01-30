@@ -2,6 +2,8 @@
 Welcome to my corner of the internet! 
 
 ## Assistance Received
+- *30/01/2022*
+Rodney Nayo offered moral support and encouragement. Extremely grateful.
 
 ## Journal
 - *29/01/2022*
