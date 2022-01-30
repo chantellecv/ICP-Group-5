@@ -4,13 +4,16 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    // global HashMap
+    // global data stores
     public static HashMap<String, String> userAccounts = new HashMap <String, String>();
     public static HashSet <String> activeSession = new HashSet <String>();
     public static HashMap<String, List<String>> userProfile = new HashMap<String, List<String>>();
+    public static HashSet <String> adminUsers = new HashSet <String>();
+    public static HashSet <String> facultyMembers = new HashSet <String>();
 
     public static void main(String[] args) {
         System.out.println("Welcome to Kenneth's Canvas - Phase 1.");
+
         Scanner input = new Scanner(System.in);
         createAccount();
 
@@ -51,6 +54,11 @@ public class Main {
                 System.out.println("Your input should be 'y' or 'n'.");
             }
         }
+
+
+        //isAdmin();
+        //makeFaculty();
+        //isFaculty();
     }
 
     public static void createAccount() {
@@ -117,11 +125,11 @@ public class Main {
         profile.add(bday);
 
         // email collection
-        String email = activeSession.toString();
+        System.out.println("Okay, THIS is the last question. Now what's your email?");
+        String email = input.nextLine();
 
         userProfile.put(email, profile);
         System.out.println("Your profile has been updated.");
-        System.out.println(userProfile);
     }
 
     public static void viewProfile() {
@@ -135,6 +143,49 @@ public class Main {
         }
         else {
             System.out.println("NA");
+        }
+    }
+
+    public static boolean isAdmin() {
+        System.out.println("Let's check if you're an admin.");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Give me your email address. NOW!");
+        String email = input.nextLine();
+
+        // test with 'admin@admin.com'
+        adminUsers.add("admin@admin.com");
+
+        if (adminUsers.contains(email)) {
+            System.out.println("You're an admin!");
+            return true;
+        } else {
+            System.out.println("You're not an admin.");
+            return false;
+        }
+    }
+
+    public static void makeFaculty() {
+        System.out.println("So you want to be faculty.");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Well whatchu waitin' for?? Your email, type it down.");
+        String email = input.nextLine();
+
+        facultyMembers.add(email);
+        System.out.println("All done. We're proud of you!");
+    }
+
+    public static boolean isFaculty() {
+        System.out.println("Let's check if you're faculty.");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Your email address, please.");
+        String email = input.nextLine();
+
+        if (facultyMembers.contains(email)) {
+            System.out.println("You're faculty!");
+            return true;
+        } else {
+            System.out.println("You're.. unemployed?");
+            return false;
         }
     }
 
