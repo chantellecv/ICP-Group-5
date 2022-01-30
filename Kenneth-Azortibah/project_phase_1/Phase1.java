@@ -1,8 +1,7 @@
-
-
 import java.util.*;
 
-public class Main {
+public class Phase1 {
+
     // global data stores
     public static HashMap<String, String> userAccounts = new HashMap <String, String>();
     public static HashSet <String> activeSession = new HashSet <String>();
