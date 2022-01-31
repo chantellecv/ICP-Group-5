@@ -1,30 +1,33 @@
 import java.util.Scanner;
 public class Main {
-
-
-//    static String [] emails = {};
-//
-//    static String [] passwords = {};
+    
 
 
 
-    static String [] administration = {};
+    static String [] admin = {"Dennis.owusu@ashesi.edu.gh"};
 
-    static String [][] admin_profiles = new String [10][7];
 
     static String[][] User_details = new String [7][7];
+    static String[][] faculty_members = new String [2][2];
 
 
-    //static String[][] admin_profiles = new String [10][7];
 
 
     public static void createAccount(String email, String password ) {
+//        for(int i = 0; i < User_details.length; i++) {
+//            for (int j = 0; j < (User_details[i].length / 2) + 1; j++) {
+//                if (User_details[i][j]== null){
+//                    User_details[i][j]= email;
+//                    Us
+//            }
+//        }
+//            }
         int count = 0;
-        for (int g = 0; g < User_details.length; g++) {
+        for (int g = 0; g < User_details[count].length/2; g++) {
             if (User_details[count][g] == null) {
-                User_details[count][g] = email;
+                User_details[count][0] = email;
                 if(g +1 < User_details.length){
-                    User_details[count][g + 1] = password;
+                    User_details[count][1] = password;
                 }
 
             }else{
@@ -47,7 +50,6 @@ public class Main {
 //            count++;
 //        }
         }
-        count++;
         System.out.println("\n\nYour email: " + email + " and your password: " + password + " have been successfully saved");
     }
 
@@ -84,22 +86,22 @@ public class Main {
 
     }
 
-    public static void updateProfile(String first_name,
+    public static void updateProfile(String email, String first_name,
                                      String last_name, String year_group,String gpa,
                                      String date_of_birth) {
-        for (int a = 0; a < User_details.length; a++) {
-            int b = 1;
-            b = b + 1;
-            User_details[a][b] = first_name;
-            b = b + 1;
-            User_details[a][b] = last_name ;
-            b = b + 1;
-            User_details[a][b] = year_group;
-            b = b + 1;
-            User_details[a][b] = gpa;
-            b = b + 1;
-            User_details[a][b] = date_of_birth;
 
+        for(int i = 0; i < User_details.length; i++) {
+            for (int j = 0; j < (User_details[i].length / 2) + 1; j++) {
+                if(User_details[i][j] == email){
+                    User_details[i][2] = first_name;
+                    User_details[i][3] = last_name;
+                    User_details[i][4] = year_group;
+                    User_details[i][5] = gpa;
+                    User_details[i][6] = date_of_birth;
+
+                }
+
+            }
         }
     }
 
@@ -127,32 +129,64 @@ public class Main {
 
     }
     public static boolean isAdmin(String email){
-        System.out.println("This user is an admin");
-        return true;
-    }
-
-    public static void create_faculty_Account(){
-        String email;
-
-        for (int i=0;i<administration.length;i++)
-        {
-            email= administration[i];
-            admin_profiles[i][0] = email;
-
-
-            System.out.println("\n\nYour email: "+ email + " has been successfully saved");
+        for(int i = 0; i < admin.length; i++){
+            if(email == admin[i]){
+                System.out.println("This user is an admin");
+                return true;
+            }else{
+                System.out.println("This user is not an admin");
+                return false;
+            }
         }
+        return false;
+
+
     }
+
 
     public static void makeFaculty(String email){
-        System.out.println("who will you like to make a faulty member");
+        for(int i = 0; i < User_details.length; i++) {
+            for (int j = 0; j < (User_details[i].length / 2) + 1; j++) {
+                if (User_details[i][j] == email) {
+                    for(int k=0; k < faculty_members.length; k++){
+                        if(faculty_members[k][0]==null){
+                            User_details[i][0] = faculty_members[k][0];
+                            User_details[i][1] = faculty_members[k][1];
+
+                        }
+                    }
+
+
+                }
+            }
+        }
+        System.out.println("you have successful made " + email + " a faulty member");
+
+
 
     }
-    public static void main(String[] args) {
-        createAccount("georgeminyillah@gmail.com", "Minyillah1289$");
-        updateProfile("first_name", "last_name", "year_group", "gpa", "date_of_birth");
-        viewProfile("georgeminyillah@gmail.com");
 
+    public static boolean isFaculty(String email){
+        for(int i = 0; i < faculty_members.length; i++) {
+                if (faculty_members[i][0] == email) {
+                    System.out.println(email + "is a faculty member");
+                    return true;
+                }else{
+                    System.out.println(email + " is not a Faulty member");
+                }
+            }
+        return false;
+    }
+    public static void main(String[] args) {
+//        createAccount("georgeminyillah@gmail.com", "Minyillah1289$");
+//        createAccount("george.minyillah@ashesi.edu.gh","Georgemensah0000$£%");
+//        updateProfile("georgeminyillah@gmail.com","George", "Minyillah", "2023", "3.85", "10th April 2000");
+//        viewProfile("georgeminyillah@gmail.com");
+//        viewProfile("george.minyillah@ashesi.edu.gh");
+//        isAdmin("georgeminyillah@gmail.com");
+//        isAdmin("Dennis.owusu@ashesi.edu.gh");
+        makeFaculty("george.minyillah@ashesi.edu.gh");
+        isFaculty("george.minyillah@ashesi.edu.gh");
 //        for(int z=0; z < User_details.length; z++){
 //            for(int y=0; y< User_details.length; y++){
 //                System.out.println("User_details[" + z + "][" + y + "] = "
