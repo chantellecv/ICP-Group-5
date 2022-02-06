@@ -182,8 +182,20 @@ public static void createAdminAccount(String email, String pass) {
          }
 
      }
+    }
+// To register a person to a particular course
+public static void registerCourse(String email, String coursecode){
 
- }
+
+    }
+public viewCourseByCode(String coursecode){
+    for (int i = 0; i < courseCount; i++){
+        if(courses[i].coursecode=coursecode){
+            system.out.println("")
+        }
+    }
+}
+}
   
   
   public static void main(String[] args) {
@@ -242,7 +254,7 @@ class Course{
     public String email;
     public String coursename;
     public String coursecode;
-    
+
 
 // Course class constructor
 Course(String email,String coursename,String coursecode){
