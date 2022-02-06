@@ -4,7 +4,9 @@ public class Phase1 {
 
     // global data stores
     public static HashMap<String, String> userAccounts = new HashMap <String, String>();
+
     public static HashSet <String> activeSession = new HashSet <String>();
+    
     public static HashMap<String, List<String>> userProfile = new HashMap<String, List<String>>();
     public static HashSet <String> adminUsers = new HashSet <String>();
     public static HashSet <String> facultyMembers = new HashSet <String>();
@@ -66,6 +68,7 @@ public class Phase1 {
 
         System.out.println("Enter your desired email address below:");
         String email = input.nextLine();
+
         System.out.println("Set a secure password:");
         String password = input.nextLine();
 
