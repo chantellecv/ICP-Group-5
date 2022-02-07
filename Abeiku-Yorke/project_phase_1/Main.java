@@ -271,11 +271,14 @@ public class Main{
             for (int j = 0; j< courses[i].usersCount; j++){
                 if(courses[i].users[j].email == email){
                     for(int k = 0; k< courses[i].assCount; k++){
-                        System.out.println("Assignment name "+courses[i].assignments[k].assignmentname);
+                        System.out.println("Assignment name: "+ courses[i].assignments[k].assignmentname);
                     }
                 }
             }
         }
+    }
+    public static void submitAssignment(String email, String coursecode, String assignmentname, ){
+
     }
 
       
@@ -305,13 +308,14 @@ public class Main{
         registerCourse("abeiku.yorke@ashesi.edu.gh", "ICP213");
         registerCourse("senior.yorke@ashesi.edu.gh", "ICP213");
         registerCourse("senior.yorke@ashesi.edu.gh", "OS213");
+        registerCourse("senior.yorke@ashesi.edu.gh","N213");
         
         viewCourseByCode("ICP213");
         
         viewCourseByEmail("senior.yorke@ashesi.edu.gh");
         addAssignment("opana@ashesi.edu.gh","N213","Assignment 1","Study hard and do this assignment","Homework","12/01/2022");
         viewAssignmentsByCourse("N213");
-        viewAssignmentsByEmail("opana@ashesi.edu.gh");
+        viewAssignmentsByEmail("senior.yorke@ashesi.edu.gh");
       }
       
     }
@@ -416,5 +420,18 @@ class Assignment{
         this.assignmentdesc = assignmentdesc;
         this.assignmenttype = assignmenttype;
         this.assignmentddate = assignmentddate;
+    }
+}
+// Submissions Class
+class Submissions{
+    public String email;
+    public String coursecode;
+    public String assignmentname;
+    public 
+
+    Submissions(String email, String coursecode, String assignmentname, ){
+        this.email = email;
+        this.coursecode = coursecode;
+        this.assignmentname = assignmentname;
     }
 }
