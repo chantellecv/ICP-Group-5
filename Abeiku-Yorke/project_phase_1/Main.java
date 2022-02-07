@@ -313,6 +313,9 @@ public class Main{
         }
     }
     
+    public static void scoreAssignment(){
+        
+    }
     public static void main(String[] args) {
         createAccount("abeiku.yorke@ashesi.edu.gh","123");
         createAccount("senior.yorke@ashesi.edu.gh","123");
