@@ -6,12 +6,16 @@ public class Main{
       private static Admin[] admins = new Admin[1000];
     //Create an array of type Course
       private static Course[] courses = new Course[1000];
+    //Create an array of type Submission
+      private static Submission[] submission = new Submission[1000];
     //This is to keep count of users
       public static int userCount = 0;
     //This is to keep count of admins
       private static int adminCount = 0;
     //This is to keep count of courses
       private static int courseCount = 0;
+    // This is to keep count of submissions
+      private static int subCount = 0;
     //This is to check whether a user or admin is logged in, it has been set default to false
       private static boolean loggedIn = false;
     // when the user logins, currentUserEmail is set to the person's email.
@@ -277,7 +281,7 @@ public class Main{
             }
         }
     }
-    public static void submitAssignment(String email, String coursecode, String assignmentname, ){
+    public static void submitAssignment(String email, String coursecode, String assignmentname){
 
     }
 
@@ -423,13 +427,12 @@ class Assignment{
     }
 }
 // Submissions Class
-class Submissions{
+class Submission{
     public String email;
     public String coursecode;
     public String assignmentname;
-    public 
 
-    Submissions(String email, String coursecode, String assignmentname, ){
+    Submission(String email, String coursecode, String assignmentname){
         this.email = email;
         this.coursecode = coursecode;
         this.assignmentname = assignmentname;
