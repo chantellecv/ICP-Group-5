@@ -7,7 +7,7 @@ public class Main{
     //Create an array of type Course
       private static Course[] courses = new Course[1000];
     //Create an array of type Submission
-      private static Submission[] submission = new Submission[1000];
+      private static Submission[] submissions = new Submission[1000];
     //This is to keep count of users
       public static int userCount = 0;
     //This is to keep count of admins
@@ -281,9 +281,21 @@ public class Main{
             }
         }
     }
-    public static void submitAssignment(String email, String coursecode, String assignmentname){
+    public static void submitAssignment(String email, String coursecode, String assignmentname, String submission){
+        if(loggedIn){
+            for( int i=0 ; i < courseCount; i++){
+                if(courses[i].coursecode == coursecode){
+                    courses[i].addsub(email,coursecode,assignmentname,submission);
+                    System.out.println(assignmentname +" has been submitted successfully");
+
+                }
+            }
+
+
+        }
 
     }
+    public static void viewSubmissions(String email,String assignmentname, String )
 
       
       
@@ -320,6 +332,7 @@ public class Main{
         addAssignment("opana@ashesi.edu.gh","N213","Assignment 1","Study hard and do this assignment","Homework","12/01/2022");
         viewAssignmentsByCourse("N213");
         viewAssignmentsByEmail("senior.yorke@ashesi.edu.gh");
+        submitAssignment("senior.yorke@ashesi.edu.gh","N213","Assignment 1","Submitted");
       }
       
     }
@@ -378,6 +391,8 @@ public class Main{
       public int usersCount = 0;
       public Assignment[] assignments;
       public int assCount = 0;
+      public Submission[] submissions;
+      public int subCount = 0;
     
       
       
@@ -388,6 +403,7 @@ public class Main{
         this.coursecode = coursecode;
         this.users = new User[1000];
         this.assignments = new Assignment[1000];
+        this.submissions = new Submission[1000];
         
 
       }
@@ -410,6 +426,12 @@ public class Main{
           this.assignments[assCount]= assignment;
           this.assCount++;
       }
+
+      public void addsub(String email, String coursecode, String asssignmentname, String submits){
+        Submission submission = new Submission(email,coursecode,asssignmentname,submits);
+          this.submissions[subCount]= submission;
+          this.subCount++;
+    }
     }
 
 // Assignemnt class
@@ -431,10 +453,12 @@ class Submission{
     public String email;
     public String coursecode;
     public String assignmentname;
+    public String submits;
 
-    Submission(String email, String coursecode, String assignmentname){
+    Submission(String email, String coursecode, String assignmentname, String submits){
         this.email = email;
         this.coursecode = coursecode;
         this.assignmentname = assignmentname;
+        this.submits = submits;
     }
 }
