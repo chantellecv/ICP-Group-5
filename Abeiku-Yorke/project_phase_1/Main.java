@@ -239,6 +239,45 @@ public class Main{
           }
         }
       }
+
+    public static void addAssignment(String email,String coursecode,String assignmentname, String assignmentdesc, String assignmenttype, String assignmentdate){
+        if(loggedIn){
+            if(isFaculty(email)){
+                for (int i=0; i < courseCount; i++){
+                    if(courses[i].coursecode == coursecode){
+                        courses[i].addAssign(assignmentname,assignmentdesc,assignmenttype,assignmentdate);
+                        System.out.println(assignmentname + "  has been created successfully");
+                    }
+                }
+            }
+        }
+    }
+
+    public static void viewAssignmentsByCourse(String coursecode){
+        for (int i = 0; i < courseCount; i++){
+            if(courses[i].coursecode == coursecode){
+                System.out.println("Course name: "+ courses[i].coursename);
+                System.out.println("Course code: "+ courses[i].coursecode);
+                for (int j = 0; j < courses[i].assCount; j++){
+                    System.out.println("Assignment name: "+ courses[i].assignments[j].assignmentname + "|| Assignment Description: "+ courses[i].assignments[j].assignmentdesc + " || Assignment Due Date: "+ courses[i].assignments[j].assignmentddate + " || Assignment Type: "+courses[i].assignments[j].assignmenttype);
+
+                }
+            }
+        }
+    }
+    
+    public static void viewAssignmentsByEmail(String email){
+        for(int i = 0; i < courseCount; i++){
+            for (int j = 0; j< courses[i].usersCount; j++){
+                if(courses[i].users[j].email == email){
+                    for(int k = 0; k< courses[i].assCount; k++){
+                        System.out.println("Assignment name "+courses[i].assignments[k].assignmentname);
+                    }
+                }
+            }
+        }
+    }
+
       
       
       
@@ -270,7 +309,9 @@ public class Main{
         viewCourseByCode("ICP213");
         
         viewCourseByEmail("senior.yorke@ashesi.edu.gh");
-        
+        addAssignment("opana@ashesi.edu.gh","N213","Assignment 1","Study hard and do this assignment","Homework","12/01/2022");
+        viewAssignmentsByCourse("N213");
+        viewAssignmentsByEmail("opana@ashesi.edu.gh");
       }
       
     }
@@ -327,6 +368,9 @@ public class Main{
       
       public User[] users;
       public int usersCount = 0;
+      public Assignment[] assignments;
+      public int assCount = 0;
+    
       
       
     // Course class constructor
@@ -335,6 +379,9 @@ public class Main{
         this.coursename = coursename;
         this.coursecode = coursecode;
         this.users = new User[1000];
+        this.assignments = new Assignment[1000];
+        
+
       }
       
       public void addUser(String email, User[] users, int userCount){
@@ -350,4 +397,24 @@ public class Main{
         }
         
       }
+      public void addAssign(String assignmentname,String assignmentdesc,String assignmenttype,String assignmentddate){
+          Assignment assignment = new Assignment(assignmentname,assignmentdesc,assignmenttype,assignmentddate);
+          this.assignments[assCount]= assignment;
+          this.assCount++;
+      }
     }
+
+// Assignemnt class
+class Assignment{
+    public String assignmentname;
+    public String assignmentdesc;
+    public String assignmenttype;
+    public String assignmentddate;
+
+    Assignment(String assignmentname,String assignmentdesc, String assignmenttype,String assignmentddate){
+        this.assignmentname = assignmentname;
+        this.assignmentdesc = assignmentdesc;
+        this.assignmenttype = assignmenttype;
+        this.assignmentddate = assignmentddate;
+    }
+}
