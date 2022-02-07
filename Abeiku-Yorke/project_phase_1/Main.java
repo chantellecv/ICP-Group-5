@@ -295,12 +295,25 @@ public class Main{
         }
 
     }
-    public static void viewSubmissions(String email,String assignmentname, String )
-
-      
-      
-      
-      public static void main(String[] args) {
+    public static void viewSubmissions(String email,String assignmentname, String coursecode){
+        if(loggedIn){
+            if(isFaculty(email)){
+                for(int i = 0; i< courseCount; i++){
+                    if(courses[i].coursecode == coursecode){
+                        for(int j = 0; j< courses[i].assCount; j++){
+                            if(courses[i].assignments[j].assignmentname == assignmentname){
+                                for(int k = 0; k< courses[i].subCount; k++){
+                                    System.out.println("submissions made: "+ courses[i].submissions[k].email +"|| submission Status: "+ courses[i].submissions[k].submits);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
         createAccount("abeiku.yorke@ashesi.edu.gh","123");
         createAccount("senior.yorke@ashesi.edu.gh","123");
         createAccount("opana@ashesi.edu.gh","123");
@@ -333,6 +346,7 @@ public class Main{
         viewAssignmentsByCourse("N213");
         viewAssignmentsByEmail("senior.yorke@ashesi.edu.gh");
         submitAssignment("senior.yorke@ashesi.edu.gh","N213","Assignment 1","Submitted");
+        viewSubmissions("opana@ashesi.edu.gh","Assignment 1","N213");
       }
       
     }
