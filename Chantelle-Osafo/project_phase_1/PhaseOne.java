@@ -10,6 +10,7 @@ public class PhaseOne{
     int score = 0;
     Scanner sc = new Scanner(System.in);
 
+    ArrayList<Integer> scores = new ArrayList<>();
     ArrayList<String> assignment = new ArrayList<>();
     ArrayList<String> emailList = new ArrayList<String>();
     ArrayList<String> adminList = new ArrayList<String>();
@@ -28,7 +29,6 @@ public class PhaseOne{
     ArrayList<String> courseMemberEmails = new ArrayList<>();
     ArrayList<String> assignmentSubmissions = new ArrayList<String>();
     ArrayList<String> submitterEmails = new ArrayList<String>();
-
 
     ArrayList<ArrayList<String>> assignments = new ArrayList<>();
     ArrayList<ArrayList<String>> courseSubmissions = new ArrayList<>();
@@ -345,17 +345,139 @@ public class PhaseOne{
             System.out.println("Please enter the a score:");
             score = sc.nextInt();
 
-            ArrayList<Integer> scores = new ArrayList<>();
-
             if (courseCodes.contains(courseCode) && submitterEmails.contains(email)){
                 for (int i = 0; i < courseAssignments.size(); i++){
-                    int index = courseAssignments.get(i).indexOf(assignmentName);
-                    scores.add(index, score);
+                    for (int j = 0; j < assignments.size(); j++){
+                        int index = courseAssignments.get(i).get(j).indexOf(assignmentName);
+                        scores.add(index, score);
+                    }
                 }
             }
+        }
+    }
 
 
+    public void viewAssignmentScore(){
+        if (login() == true ){
+            System.out.println("Please enter an email address:");
+            email = sc.nextLine();
 
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
+            int index = assignment.indexOf(assignmentName);
+            System.out.println(scores.get(index));
+        }
+    }
+
+    public void viewAssignmentScores(){
+        if (login() == true && isFaculty() == true) {
+
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
+            if (courseCodes.contains(courseCode) && assignment.contains(assignmentName)) {
+                System.out.println("The scores are: " + scores.get(courseCodes.indexOf(courseCode)));
+            }
+        }
+    }
+
+    public void viewAllAssignmentScores(){
+        if (login() == true) {
+            System.out.println("Please enter an email address:");
+            email = sc.nextLine();
+
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            for (int i = 0; i < submitterEmails.size(); i++) {
+                if (courseCodes.contains(courseCode) && (submitterEmails.get(i)).contains(email)) {
+                    System.out.println("Your scores are " + scores.get(i));
+                }
+            }
+        }
+    }
+
+    public void viewAssignmentGrade() {
+        if (login() == true) {
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
+            if (submitterEmails.contains(email) && courseCodes.contains(courseCode) && assignment.contains(assignmentName)) {
+                System.out.println("The score for " + assignmentName + " is " + scores.get(submitterEmails.indexOf(email)));
+
+                if (scores.get(submitterEmails.indexOf(email)) >= 85 && scores.get(submitterEmails.indexOf(email)) <= 100) {
+                    System.out.println("Grade: A+");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 80 && scores.get(submitterEmails.indexOf(email)) <= 84) {
+                    System.out.println("Grade: A");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 75 && scores.get(submitterEmails.indexOf(email)) <= 79) {
+                    System.out.println("Grade: B+");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 70 && scores.get(submitterEmails.indexOf(email)) <= 74) {
+                    System.out.println("Grade: B");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 65 && scores.get(submitterEmails.indexOf(email)) <= 69) {
+                    System.out.println("Grade: C+");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 60 && scores.get(submitterEmails.indexOf(email)) <= 64) {
+                    System.out.println("Grade: C");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 55 && scores.get(submitterEmails.indexOf(email)) <= 59) {
+                    System.out.println("Grade: D+");
+
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 50 && scores.get(submitterEmails.indexOf(email)) <= 54) {
+                    System.out.println("Grade: D");
+                    
+                } else if (scores.get(submitterEmails.indexOf(email)) >= 0 && scores.get(submitterEmails.indexOf(email)) <= 49) {
+                    System.out.println("Grade: E");
+                }
+            }
+        }
+    }
+
+    public void viewAssignmentGrades() {
+        if (login() == true && isFaculty()) {
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
+            for (int i = 0; i < submitterEmails.size(); i++) {
+                if (courseCodes.contains(courseCode) && (submitterEmails.get(i)).contains(email) && assignmentName.contains(assignmentName)) {
+                    if (scores.get(submitterEmails.indexOf(email)) >= 85 && scores.get(submitterEmails.indexOf(email)) <= 100) {
+                        System.out.println("Grade: A+" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 80 && scores.get(submitterEmails.indexOf(email)) <= 84) {
+                        System.out.println("Grade: A" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 75 && scores.get(submitterEmails.indexOf(email)) <= 79) {
+                        System.out.println("Grade: B+" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 70 && scores.get(submitterEmails.indexOf(email)) <= 74) {
+                        System.out.println("Grade: B" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 65 && scores.get(submitterEmails.indexOf(email)) <= 69) {
+                        System.out.println("Grade: C+" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 60 && scores.get(submitterEmails.indexOf(email)) <= 64) {
+                        System.out.println("Grade: C" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 55 && scores.get(submitterEmails.indexOf(email)) <= 59) {
+                        System.out.println("Grade: D+" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 50 && scores.get(submitterEmails.indexOf(email)) <= 54) {
+                        System.out.println("Grade: D" + " Score: " + scores.get(i));
+                    } else if (scores.get(submitterEmails.indexOf(email)) >= 0 && scores.get(submitterEmails.indexOf(email)) <= 49) {
+                        System.out.println("Grade: E" + " Score: " + scores.get(i));
+                    }
+
+                }
+            }
         }
     }
 
