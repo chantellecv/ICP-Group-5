@@ -7,6 +7,7 @@ public class PhaseOne{
     public static String name;
     String courseCode;
     String courseName;
+    int score = 0;
     Scanner sc = new Scanner(System.in);
 
     ArrayList<String> assignment = new ArrayList<>();
@@ -26,6 +27,8 @@ public class PhaseOne{
     ArrayList<String> courseMemberNames = new ArrayList<>();
     ArrayList<String> courseMemberEmails = new ArrayList<>();
     ArrayList<String> assignmentSubmissions = new ArrayList<String>();
+    ArrayList<String> submitterEmails = new ArrayList<String>();
+
 
     ArrayList<ArrayList<String>> assignments = new ArrayList<>();
     ArrayList<ArrayList<String>> courseSubmissions = new ArrayList<>();
@@ -135,7 +138,7 @@ public class PhaseOne{
     }
 
     public boolean isFaculty(){
-        System.out.println("Please enter the email address to be checked: ");
+        System.out.println("Please enter the email address to be checked being faculty: ");
         email = sc.nextLine();
         if (facultyList.contains(email)){
             return true;
@@ -195,7 +198,7 @@ public class PhaseOne{
     }
 
     public void viewCourseByCode(){
-        System.out.println("Please enter a course code:");
+        System.out.println("Please enter a course code to view its details:");
         int index = courseCodes.indexOf(sc.nextLine());
         if (index != -1){
             System.out.println("This is course " + courseCodes.get(index) + ": " + courseNames.get(index));
@@ -252,7 +255,7 @@ public class PhaseOne{
     }
 
     public void viewAssignmentsByCourse(){
-        System.out.println("Please enter a course code:");
+        System.out.println("Please enter a course code to view its assignments:");
         int index = courseCodes.indexOf(sc.nextLine());
         if (index != -1){
             System.out.println(courseAssignments.get(index).toString());
@@ -262,7 +265,7 @@ public class PhaseOne{
     }
 
     public void viewAssignmentsByEmail(){
-        System.out.println("Please enter your email:");
+        System.out.println("Please enter an email to view assignments:");
         for (int i = 0; i < courseAssignments.size(); i++){
             for (int j = 0; j < assignments.size(); j++){
                 if (courseAssignments.get(i).get(j).contains(sc.nextLine())){
@@ -276,6 +279,7 @@ public class PhaseOne{
         if (login() == true){
             System.out.println("Please enter your email to submit your assignment:");
             email = sc.nextLine();
+            submitterEmails.add(email);
 
             System.out.println("Please enter the course code:");
             courseCode = sc.nextLine();
@@ -300,25 +304,26 @@ public class PhaseOne{
 
     public void viewSubmissions(){
         if (login() == true && isFaculty()==true && creatorEmails.contains(email)){
-            System.out.println("Please enter your email to submit your assignment:");
+            System.out.println("Please enter an email address:");
             email = sc.nextLine();
 
             System.out.println("Please enter the course code:");
             courseCode = sc.nextLine();
-
-            System.out.println("Please enter the assignment name:");
-            // String assignmentName = sc.nextLine();
-
             int index = courseCodes.indexOf(courseCode);
 
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
             if (index != -1){
-                for (int i = 0; i < completeCourseMembersNames.size(); i++){
+                for (int i = 0; i < completeCourseMembersNames.get(index).size(); i++){
                     String user = completeCourseMembersNames.get(index).get(i);
 
                     for (int j = 0; j < courseAssignments.size(); j++){
-                        if (assignment.contains(user)){
-                            int ind = assignments.indexOf(assignment);
-                            System.out.println(assignmentSubmissions.get(ind));
+                        for (int k = 0; k < assignmentSubmissions.size(); k++){
+                            if (courseAssignments.get(i).get(k).contains(user) && courseAssignments.get(i).get(k).contains(assignmentName)){
+                                int ind = courseAssignments.get(i).indexOf(courseAssignments.get(i).get(k));
+                                System.out.println(courseSubmissions.get(i).get(ind));
+                            }
                         }
                     }
                 }
@@ -326,9 +331,33 @@ public class PhaseOne{
         }
     } 
 
+    public void scoreAssignment(){
+        if (login() == true && isFaculty()==true && creatorEmails.contains(email)){
+            System.out.println("Please enter an email address:");
+            email = sc.nextLine();
+
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
+            System.out.println("Please enter the a score:");
+            score = sc.nextInt();
+
+            ArrayList<Integer> scores = new ArrayList<>();
+
+            if (courseCodes.contains(courseCode) && submitterEmails.contains(email)){
+                for (int i = 0; i < courseAssignments.size(); i++){
+                    int index = courseAssignments.get(i).indexOf(assignmentName);
+                    scores.add(index, score);
+                }
+            }
 
 
 
+        }
+    }
 
     public static void main(String[] args) {
         PhaseOne person = new PhaseOne();
