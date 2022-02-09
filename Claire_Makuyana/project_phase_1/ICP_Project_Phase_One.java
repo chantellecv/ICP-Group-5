@@ -14,6 +14,8 @@ public class ICP_Project_Phase_One {
 
     static String [] course_codes_names ={"Multivariable Calculus","Leadership III","Physics II","Data Structures","Statistics"};
 
+    static String [] assignment_type_array = {"Quiz","Homework","Project","Exam"};
+
     static String [] course_creators = new String [5];
 
     static String [][] faculty_profiles = new String [10][7];
@@ -22,9 +24,14 @@ public class ICP_Project_Phase_One {
 
     static String [][] students_courses = new String [5][10];
 
-    static String[][] students_courses_assignments = new String [5][10];
+    static String[][][] students_courses_assignments = new String [5][10][4];
 
-    static String[][] students_submitted_assignments = new String [5][10];
+    static String[][][] students_submitted_assignments = new String [5][10][4];
+
+    static String[][][] students_submitted_assignments_scores = new String [5][10][4];
+
+    static String [][] students_actual_scores = new String[20][5];
+
 
 
     public static void createAccount(){
@@ -395,7 +402,7 @@ public class ICP_Project_Phase_One {
     }
     //Relook the course creator required thing
     public static void addAssignment(String email,String pass,String course_code,
-                                     String assignment_name,String description,
+                                     String assignment_number,String description,
                                      String due_date, String assignment_type){
 
         int logic=0;
@@ -405,24 +412,40 @@ public class ICP_Project_Phase_One {
                 for (int i = 0; i < course_names.length; i++) {
 
                     String code_iteration = course_names[i];
-
                     if (code_iteration.equals(course_code)) {
+
 
                         int j;
                         for (j = 0; j < students_courses_assignments[i].length; j++) {
-                            String courses_assignments_iteration = students_courses_assignments[i][j];
-                            if (courses_assignments_iteration == null) {
-
-                                logic = 1;
-                                break;
+                            int index=0;
+                            if(assignment_type.equals("Quiz")){
+                                index =0;
+                            }else if(assignment_type.equals("Homework")){
+                                index=1;
+                            }else if(assignment_type.equals("Project")){
+                                index=2;
+                            }else if(assignment_type.equals("Exam")){
+                                index=3;
                             }
+
+                            String courses_assignments_iteration = students_courses_assignments[i][j][index];
+                            if (courses_assignments_iteration == null) {
+                                students_courses_assignments[i][j][index] = assignment_number;
+                                logic = 1;
+
+                            } else if (courses_assignments_iteration != null) {
+
+                                students_courses_assignments[i][j][index] = courses_assignments_iteration + ", " + assignment_number;
+                                logic = 1;
+                            }
+
                         }
                         if (logic == 1) {
-                            //String item = assignment_name +" - "+assignment_type;
-                            students_courses_assignments[i][j] = assignment_name;
-                            System.out.println("\nCongratulations " + email + " you have successfully added "+ assignment_name +" that is due on "+ due_date +"\n. The assignment description is " + description + " \n.");
+
+                            System.out.println("\nCongratulations " + email + " you have successfully added " + assignment_number + " that is due on " + due_date + "\n. The assignment description is " + description + " \n.");
                         }
                     }
+
                 }
             } else {
                 System.out.println("\nYou cannot add an assignment to the course database because you are not a faculty member\n");
@@ -432,36 +455,36 @@ public class ICP_Project_Phase_One {
         }
     }
 
-    public static void viewAssignmentsByCourse(String course_code){
+    public static void viewAssignmentsByCourse(String course_code) {
 
-        int null_counter=0;
-        int logic=0;
+        int null_counter = 0;
+        //int logic=0;
+        int code = 0;
         int i;
-        for (i = 0; i < course_names.length; i++){
+        for (i = 0; i < course_names.length; i++) {
 
             String course_code_iteration = course_names[i];
-            if(Objects.equals(course_code_iteration, course_code)) {
+            if (Objects.equals(course_code_iteration, course_code)) {
 
-                logic = 1;
+                code = 1;
+                for (int k = 0; k < assignment_type_array.length; k++) {
+                    if (students_courses_assignments[i][0][k] != null) {
+                        String item = students_courses_assignments[i][0][k];
+                        System.out.print("\nThe assignments for the course " + course_code + " are: " + item + "\n ");
 
 
-                for (int j = 0; j < students_courses_assignments[i].length; j++) {
 
-                    if(students_courses_assignments[i][j]!=null) {
-
-
-                        // Print array element present at index j
-                        int count=j+1;
-                        System.out.print("\nAssignment number " + count + " in the " + course_code + " course is " + students_courses_assignments[i][j] + "\n ");
-                    }else{
-                        null_counter = null_counter +1;
+                    } else {
+                        null_counter = null_counter + 1;
                     }
                 }
+
+
             }
         }
-        if (logic==0){
+        if (code==0){
             System.out.println("The course code you entered does not exist in our database");
-        }else if(null_counter==10){
+        }else if(null_counter==4){
             System.out.println("The course "+ course_code +" does not have any assignments posted yet");
         }
 
@@ -485,12 +508,14 @@ public class ICP_Project_Phase_One {
 
                     logic=1;
 
-                        for (int k = 0; k < students_courses_assignments[i].length; k++) {
-                            if(students_courses_assignments[i][k]!=null) {
+                        for (int k = 0; k < students_courses_assignments[i][j].length; k++) {
+                            if(students_courses_assignments[i][j][k]!=null) {
 
                                 // Print array element present at index i
-                                int count =k+1;
-                                System.out.print("\n"+email+"'s assignment number "+ count +" in "+course_names[i]+ " is: "+students_courses_assignments[i][k] + " \n");
+
+                                System.out.print("\n"+email+"'s assignments for "+course_names[i]+ " are: "+students_courses_assignments[i][j][k] + " \n");
+
+
                             }else{
                                 null_counter = null_counter +1;
                             }
@@ -502,35 +527,58 @@ public class ICP_Project_Phase_One {
         if(logic==0){
             System.out.println("\nThe user "+ email+" is not registered in any courses yet\n");
         }
-        if(null_counter==10){
+        if(null_counter==4){
         System.out.println("\n"+ email +" does not have any assignments yet\n");
         }
     }
 
-    public static void submitAssignment(String first_name,String last_name,String email,String pass,String course_code,String assignment_name,String submission){
+    public static void submitAssignment(String first_name,String last_name,String email,String pass,
+                                        String course_code,String assignment_type,String assignment_number,String submission){
         int logic =0;
+
         int interior_logic=0;
         if(login(email,pass)){
             for(int i=0;i<course_names.length;i++){
                 String course_names_iteration = course_names[i];
-                if(Objects.equals(course_names_iteration, course_code)){
-                    logic=1;
 
-                   for(int j=0;j< students_courses_assignments[i].length;j++){
+                if (Objects.equals(course_names_iteration, course_code)) {
+                    logic = 1;
 
-                       if(Objects.equals(students_courses_assignments[i][j], assignment_name)) {
-                           for (int m = 0; m < students_courses[i].length; m++) {
-                               String student =first_name+" - "+last_name+" - "+email;
-                               //to ensure that the index of the registered student links with his/ her submitted assignments
+                    for (int j = 0; j < students_courses_assignments[i].length; j++) {
+                        for (int k = 0; k < students_courses_assignments[i][j].length; k++) {
 
-                               if(student.equals(students_courses[i][m])) {
-                                   students_submitted_assignments[i][m] = submission;
-                                   interior_logic = 1;
-                                   System.out.println("congratulations " + email + " you have successfully submitted the assignment: " + submission + "\n");
-                               }
-                           }
-                       }
-                   }
+                            if (Objects.equals(students_courses_assignments[i][j][k], assignment_number)) {
+
+                                String student = first_name + " - " + last_name + " - " + email;
+                                //to ensure that the index of the registered student links with his/ her submitted assignments
+
+                                if (student.equals(students_courses[i][j])) {
+                                    int index=0;
+                                    if(assignment_type.equals("Quiz")){
+                                        index =0;
+                                    }else if(assignment_type.equals("Homework")){
+                                        index=1;
+                                    }else if(assignment_type.equals("Project")){
+                                        index=2;
+                                    }else if(assignment_type.equals("Exam")){
+                                        index=3;
+                                    }
+                                    if(students_submitted_assignments[i][j][index].equals(null)) {
+                                        students_submitted_assignments[i][j][index] = submission;
+                                        System.out.println("congratulations " + email + " you have successfully submitted the assignment: " + submission + "\n");
+                                        interior_logic = 1;
+                                        break;
+                                    } else if(students_submitted_assignments[i][j][index]!=null){
+                                        students_submitted_assignments[i][j][index] = "-"+submission;
+                                        System.out.println("congratulations " + email + " you have successfully submitted the assignment: " + submission + "\n");
+                                        interior_logic = 1;
+                                        break;
+                                }
+
+                            }
+                        }
+                    }
+                }
                 }
             }
         if(logic==0){
@@ -559,24 +607,25 @@ public class ICP_Project_Phase_One {
                     count=1;
                     for (int j = 0; j < students_courses_assignments[i].length; j++) {
 
-
-                        if (Objects.equals(students_courses_assignments[i][j], assignment_name)) {
-
-
-                            if (students_courses[i][j] != null && students_courses_assignments[i][j] != null) {
+                        for (int k = 0; k < students_courses_assignments[i][j].length; k++) {
+                            if (Objects.equals(students_courses_assignments[i][j][k], assignment_name)) {
 
 
-                                // Print array element present at index i, j
-                                counter = j + 1;
-                                System.out.print("\nsubmission "+ counter + " made for " + course_names[i] + " by "+ students_courses[i][j]  + " is: " + students_courses_assignments[i][j] + " \n");
-                            } else if (students_courses[i][j] != null && Objects.equals(students_courses_assignments[i][j],null)) {
+                                if (students_courses[i][j] != null && students_courses_assignments[i][j][k] != null) {
 
-                                no_submission = 1;
-                                break;
-                            } else {
-                                null_counter = null_counter + 1;
+
+                                    // Print array element present at index i, j
+                                    counter = j + 1;
+                                    System.out.print("\nsubmission " + counter + " made for " + course_names[i] + " by " + students_courses[i][j] + " is: " + students_courses_assignments[i][j][k] + " \n");
+                                } else if (students_courses[i][j] != null && Objects.equals(students_courses_assignments[i][j][k], null)) {
+
+                                    no_submission = 1;
+                                    break;
+                                } else {
+                                    null_counter = null_counter + 1;
+                                }
+
                             }
-
                         }
 
                     }
@@ -597,37 +646,67 @@ public class ICP_Project_Phase_One {
 
 
     }
-    public static void scoreAssignment(String faculty_email,String pass,String course_code,String assignment_name,
-                                       String student_email, String score){
+
+    public static void scoreAssignment( String faculty_email,String pass,String course_code,
+                                        String assignment_number,String assignment_type, String student_email,
+                                        String first_name, String last_name, String score){
         int count=0;
         int counter;
         int null_counter=0;
         if(!login(faculty_email,pass)==isFaculty(faculty_email)){
+
+
             for (int i = 0; i < students_courses_assignments.length; i++) {
-                if(Objects.equals(course_names[i], course_code) && Objects.equals(course_creators[i], faculty_email)) {
+                if(Objects.equals(course_names[i], course_code)){
 
-                    count=1;
-                    for (int j = 0; j < students_courses_assignments[i].length; j++) {
+                    if(Objects.equals(course_creators[i], faculty_email)) {
+
+                        count = 1;
+                        for (int j = 0; j < students_courses_assignments[i].length; j++) {
+                            String item = first_name + " - " + last_name + " - " + student_email;
+                            if (Objects.equals(students_courses[i][j], item)) {
+                                for (int k = 0; k < students_courses_assignments[i][j].length; k++) {
 
 
-                        if (Objects.equals(students_courses_assignments[i][j], assignment_name)) {
+                                    if (Objects.equals(students_courses_assignments[i][j][k], assignment_number)) {
 
 
-                            if (students_courses_assignments[i][j] != null && Objects.equals(students_courses[i][j], student_email)) {
+                                        int index = 0;
+                                        if (assignment_type.equals("Quiz")) {
+                                            index = j*4;
+                                        } else if (assignment_type.equals("Homework")) {
+                                            index = (j*4)+1;
+                                        } else if (assignment_type.equals("Project")) {
+                                            index = (j*4)+2;
+                                        } else if (assignment_type.equals("Exam")) {
+                                            index = (j*4)+3;
+                                        }
 
+                                        if (students_courses_assignments[i][j][k] != null) {
 
-                                // Print array element present at index i, j
-                                counter = j + 1;
-                                students_courses_assignments[i][j]=assignment_name + " - " + score;
-                                System.out.print("\nsubmission "+ counter + " made for " + course_names[i] + " by "+ students_courses[i][j]  + " is: " + students_courses_assignments[i][j] + " with a score of " + score + "\n");
-                            } else {
-                                null_counter = null_counter + 1;
+                                            // Print array element present at index i, j
+                                            counter = j + 1;
+                                            int position = Integer.parseInt(assignment_number) - 1;
+                                            students_actual_scores[index][position] = score;
+                                            System.out.print("\nsubmission " + counter + " made for " + course_names[i] + " by " + students_courses[i][j] + " has a score of: " + score + "/100\n");
+
+                                        } else if (students_courses_assignments[i][j][k] == null) {
+
+                                            String scoring = "00";
+                                            int position = Integer.parseInt(assignment_number) - 1;
+                                            students_actual_scores[index][position] = scoring;
+                                            System.out.println("\nThe user " + item + " does not have a submission for " + course_names[i] + " hence scoring is " + scoring + "/100\n");
+                                        } else {
+                                            null_counter = null_counter + 1;
+                                        }
+
+                                    }
+
+                                }
                             }
 
                         }
-
                     }
-
                 }
             }
         }
@@ -639,8 +718,458 @@ public class ICP_Project_Phase_One {
 
         }
     }
+    public static void viewAssignmentScore(String email, String pass,String first_name,String last_name, String course_code,String assignment_type,String assignment_number) {
+        int logic = 0;
+        int login_code=0;
+        int code = 0;
+        if (login(email, pass)) {
+            login_code=1;
+            System.out.println("one");
+            for (int i = 0; i < students_courses_assignments.length; i++) {
+                if (Objects.equals(course_names[i], course_code)) {
+                    System.out.println("two");
+                    code = 1;
+                    for (int j = 0; j < students_submitted_assignments[i].length; j++) {
+                        String item = first_name + " - " + last_name + " - " + email;
+                        if (Objects.equals(students_courses[i][j], item)) {
+                            System.out.println("Three");
+                            int index = 0;
+                            if (assignment_type.equals("Quiz")) {
+                                index = j*4;
+                            } else if (assignment_type.equals("Homework")) {
+                                index = (j*4)+1;
+                            } else if (assignment_type.equals("Project")) {
+                                index = (j*4)+2;
+                            } else if (assignment_type.equals("Exam")) {
+                                index = (j*4)+3;
+                            }
+
+                            if (Integer.parseInt(assignment_number) <= 5) {
+                                System.out.println("four");
+                                logic = 1;
+
+                                int position = Integer.parseInt(assignment_number) - 1;
+                                String score = students_actual_scores[index][position];
+                                System.out.println("\nThe scoring details for " + email + " are: " + score + " \n");
+                                break;
+                            }
+                        }
 
 
+                    }
+                }
+
+            }
+        }
+        if(code==0){
+
+            System.out.println("\nIncorrect code entered\n");
+        }else if(logic==0){
+            System.out.println("\nIncorrect assignment name\n");
+        }else if(login_code==0){
+            System.out.println("\nCannot view student scores because you are not a student\n");
+        }
+    }
+
+
+    public static void viewAssignmentScores(String email,String pass,String course_code,String assignment_number,String assignment_type){
+        int logic = 0;
+        int login_code=0;
+        int code = 0;
+        if (!login(email, pass)==isFaculty(email)) {
+            login_code=1;
+            System.out.println("one");
+            for (int i = 0; i < students_courses_assignments.length; i++) {
+                if (Objects.equals(course_names[i], course_code)&& Objects.equals(course_creators[i], email)) {//course creator
+                    System.out.println("two");
+                    code = 1;
+
+                    for (int j = 0; j < students_submitted_assignments[i].length; j++) {
+
+                        int index = 0;
+                        if (assignment_type.equals("Quiz")) {
+                            index = j*4;
+                        } else if (assignment_type.equals("Homework")) {
+                            index = (j*4)+1;
+                        } else if (assignment_type.equals("Project")) {
+                            index = (j*4)+2;
+                        } else if (assignment_type.equals("Exam")) {
+                            index = (j*4)+3;
+                        }
+
+                        if (Integer.parseInt(assignment_number)<=5) {
+                            System.out.println("three");
+                            logic = 1;
+
+                            int position =Integer.parseInt(assignment_number)-1;
+                            String score = students_actual_scores[index][position];
+                            System.out.println("\nThe scoring details for " + email + " are: " + score + " \n");
+                            break;
+                        }
+
+
+                    }
+                }
+
+            }
+        }
+        if(code==0){
+
+            System.out.println("\nIncorrect code entered\n");
+        }else if(logic==0){
+            System.out.println("\nIncorrect assignment name\n");
+        }else if(login_code==0){
+            System.out.println("\nCannot view student scores because you are not a student\n");
+        }
+    }
+
+    public static void viewALLAssignmentScores(String email,String pass,String first_name,String last_name,String course_code){
+
+        int logic=0;
+        if(login(email,pass)){
+            for(int i=0;i< students_submitted_assignments_scores.length;i++) {
+                String code=course_names[i];
+                if (course_code.equals(code)){
+                    logic=1;
+                    for(int j=0;j< students_submitted_assignments[i].length;j++){
+                        String item = students_courses[i][j];
+                        String student = first_name + " - " + last_name + " - " + email;
+                        if(student.equals(item)) {
+                            for (int k = 0; k < students_submitted_assignments[i][j].length; k++) {
+                                String index =null;
+                                if(k==0){
+                                    index ="Quiz";
+                                }else if(k==1){
+                                    index="Homework";
+                                }else if(k==2){
+                                    index="Project";
+                                }else if(k==3){
+                                    index="Exam";
+                                }
+                                System.out.println("\nAssignment scoring details for "+ index + "" + students_courses_assignments[i][j][k] +" for "+ course_code +" are "+students_submitted_assignments_scores[i][j][k]+"\n");
+
+                            }
+                        }
+                    }
+                }
+            }
+        if(logic==0){
+            System.out.println("\nIncorrect course code entered\n");
+        }
+        }else{
+            System.out.println("\nUnauthorized access because you are not a student\n");
+        }
+    }
+
+    public static void viewAssignmentGrade(String email,String pass,String course_code,String assignment_type,String assignment_number){
+        int logic = 0;
+        int login_code=0;
+        int code = 0;
+        if (login(email, pass)) {
+            login_code=1;
+            System.out.println("one");
+            for (int i = 0; i < students_courses_assignments.length; i++) {
+                if (Objects.equals(course_names[i], course_code)) {
+                    System.out.println("two");
+                    code = 1;
+                    for (int j = 0; j < students_submitted_assignments[i].length; j++) {
+                        for (int k = 0; k < students_submitted_assignments[i][j].length; k++) {
+
+                            int index = 0;
+                            if (assignment_type.equals("Quiz")) {
+                                index = j*4;
+                            } else if (assignment_type.equals("Homework")) {
+                                index = (j*4)+1;
+                            } else if (assignment_type.equals("Project")) {
+                                index = (j*4)+2;
+                            } else if (assignment_type.equals("Exam")) {
+                                index = (j*4)+3;
+                            }
+
+                            if (Integer.parseInt(assignment_number)<=5) {
+                                System.out.println("three");
+                                logic = 1;
+
+                                int position =Integer.parseInt(assignment_number)-1;
+                                String score = students_actual_scores[index][position];
+
+                                int comparing_score=Integer.parseInt(score);
+
+                                if(comparing_score>=85&&comparing_score<=100){
+                                    String grade="A+";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  +grade + " \n");
+                                    break;
+                                }else if(comparing_score>=80&&comparing_score<=84){
+                                    String grade="A";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                    break;
+                                }else if(comparing_score>=75&&comparing_score<=79){
+                                    String grade="B+";
+                                    System.out.println("\nThe grading details for " + email + " are: " +  score + ":"  +grade + " \n");
+                                    break;
+                                }else if(comparing_score>=70&&comparing_score<=74){
+                                    String grade="B";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                    break;
+                                }else if(comparing_score>=65&&comparing_score<=69){
+                                    String grade="C+";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                    break;
+                                }else if(comparing_score>=60&&comparing_score<=64){
+                                    String grade="C";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                    break;
+                                }else if(comparing_score>=55&&comparing_score<=59){
+                                    String grade="D+";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                    break;
+                                }else if(comparing_score>=50&&comparing_score<=54){
+                                    String grade="D";
+                                    System.out.println("\nThe grading details for " + email + " are: " +  score + ":"  +grade + " \n");
+                                    break;
+                                }else{
+                                    String grade="Fail";
+                                    System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                    break;
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+        if(code==0){
+
+            System.out.println("\nIncorrect code entered\n");
+        }else if(logic==0){
+            System.out.println("\nIncorrect assignment name\n");
+        }else if(login_code==0){
+            System.out.println("\nCannot view student scores because you are not a student\n");
+        }
+    }
+
+    public static void ViewAssignmentGrades(String email,String pass,String course_code,String assignment_number,String assignment_type){
+        int logic = 0;
+        int login_code=0;
+        int code = 0;
+        if (!login(email, pass)==isFaculty(email)) {
+            login_code=1;
+            System.out.println("one");
+            for (int i = 0; i < students_courses_assignments.length; i++) {
+
+                if(Objects.equals(course_names[i], course_code) && Objects.equals(course_creators[i], email)) {
+
+                    System.out.println("two");
+                    code = 1;
+
+                    for (int j = 0; j < students_submitted_assignments[i].length; j++) {
+
+                        int index = 0;
+                        if (assignment_type.equals("Quiz")) {
+                            index = j*4;
+                        } else if (assignment_type.equals("Homework")) {
+                            index = (j*4)+1;
+                        } else if (assignment_type.equals("Project")) {
+                            index = (j*4)+2;
+                        } else if (assignment_type.equals("Exam")) {
+                            index = (j*4)+3;
+                        }
+
+                        if (Integer.parseInt(assignment_number)<=5) {
+                            System.out.println("three");
+                            logic = 1;
+
+                            int position =Integer.parseInt(assignment_number)-1;
+                            String score = students_actual_scores[index][position];
+
+                            int comparing_score=Integer.parseInt(score);
+
+                            if(comparing_score>=85&&comparing_score<=100){
+                                String grade="A+";
+                                System.out.println("\nThe grading details for " + email + " are: " +  score + ":"  +grade + " \n");
+                                break;
+                            }else if(comparing_score>=80&&comparing_score<=84){
+                                String grade="A";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }else if(comparing_score>=75&&comparing_score<=79){
+                                String grade="B+";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }else if(comparing_score>=70&&comparing_score<=74){
+                                String grade="B";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }else if(comparing_score>=65&&comparing_score<=69){
+                                String grade="C+";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }else if(comparing_score>=60&&comparing_score<=64){
+                                String grade="C";
+                                System.out.println("\nThe grading details for " + email + " are: " +  score + ":"  +grade + " \n");
+                                break;
+                            }else if(comparing_score>=55&&comparing_score<=59){
+                                String grade="D+";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }else if(comparing_score>=50&&comparing_score<=54){
+                                String grade="D";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }else{
+                                String grade="Fail";
+                                System.out.println("\nThe grading details for " + email + " are: " + score + ":"  + grade + " \n");
+                                break;
+                            }
+
+                        }
+
+
+                    }
+                }
+
+            }
+        }
+        if(code==0){
+
+            System.out.println("\nIncorrect code entered\n");
+        }else if(logic==0){
+            System.out.println("\nIncorrect assignment name\n");
+        }else if(login_code==0){
+            System.out.println("\nCannot view student scores because you are not a student\n");
+        }
+    }
+    public static void viewAllAssignmentScores(String first_name,String last_name,String email,String pass,String course_code){
+        int logic = 0;
+        int login_code=0;
+        int code = 0;
+        if (login(email, pass)) {
+            login_code=1;
+            System.out.println("one");
+            for (int i = 0; i < students_courses_assignments.length; i++) {
+                if (Objects.equals(course_names[i], course_code)) {
+                    System.out.println("two");
+                    code = 1;
+                    for (int j = 0; j < students_submitted_assignments[i].length; j++) {
+                        for (int k = 0; k < students_submitted_assignments[i][j].length; k++) {
+
+                            String item = first_name + " - " + last_name + " - " + email;
+                            if (Objects.equals(students_courses[i][j], item)) {
+
+                                System.out.println("three");
+                                logic = 1;
+                                int index = 0;
+                                if (j==0) {
+                                    index = j*4;
+                                } else if (j==1) {
+                                    index = (j*4)+1;
+                                } else if (j==2) {
+                                    index = (j*4)+2;
+                                } else if (j==3) {
+                                    index = (j*4)+3;
+                                }
+                                for(int m=0;m<4;m++) {
+
+                                    String score = students_actual_scores[index][m];
+
+                                    int comparing_score = Integer.parseInt(score);
+                                    int assignment_num=m+1;
+                                    if (comparing_score >= 85 && comparing_score <= 100) {
+                                        String grade = "A+";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+
+                                    } else if (comparing_score >= 80 && comparing_score <= 84) {
+                                        String grade = "A";
+
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+
+                                    } else if (comparing_score >= 75 && comparing_score <= 79) {
+                                        String grade = "B+";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+
+                                    } else if (comparing_score >= 70 && comparing_score <= 74) {
+                                        String grade = "B";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+                                    } else if (comparing_score >= 65 && comparing_score <= 69) {
+                                        String grade = "C+";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+                                    } else if (comparing_score >= 60 && comparing_score <= 64) {
+                                        String grade = "C";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+                                    } else if (comparing_score >= 55 && comparing_score <= 59) {
+                                        String grade = "D+";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+                                    } else if (comparing_score >= 50 && comparing_score <= 54) {
+                                        String grade = "D";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+                                    } else {
+                                        String grade = "Fail";
+                                        System.out.println("\nThe grading details for assignment "+assignment_num+ " for: " + email + " are: " + score + ":" + grade + " \n");
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+        if(code==0){
+
+            System.out.println("\nIncorrect code entered\n");
+        }else if(logic==0){
+            System.out.println("\nIncorrect assignment name\n");
+        }else if(login_code==0){
+            System.out.println("\nCannot view student scores because you are not a student\n");
+        }
+    }
+
+    public static void setNotificationPreferences(String email,String pass){
+        if(login(email,pass)){
+            Scanner obj1=new Scanner(System.in);
+            System.out.println("Do you want an email sent to you when an assignment is posted. Type Y OR N");
+            String answer=obj1.next();
+            if(answer.equals("Y")){
+                System.out.println("\nAssignment posted Email notifications: ON\n");
+            }else if(answer.equals("N")){
+                System.out.println("\nAssignment posted Email notifications: Off\n");
+            }else{
+                System.out.println("\nInvalid input\n");
+            }
+
+            Scanner obj2=new Scanner(System.in);
+            System.out.println("Do you want an email sent to you when a score is submitted for their assignment. Type Y OR N");
+            String answer2=obj2.next();
+
+            if(answer2.equals("Y")){
+                System.out.println("\nAssignment grade posted Email notifications: ON\n");
+            }else if(answer2.equals("N")){
+                System.out.println("\nAssignment grade posted Email notifications: Off\n");
+            }else{
+                System.out.println("\nInvalid input\n");
+            }
+
+            Scanner obj3=new Scanner(System.in);
+            System.out.println("Do you want an email sent to you successfully register for a course. Type Y OR N");
+            String answer3=obj3.next();
+
+            if(answer3.equals("Y")){
+                System.out.println("\nCourse registration notification: ON\n");
+            }else if(answer3.equals("N")){
+                System.out.println("\nCourse registration notification: Off\n");
+            }else{
+                System.out.println("\nInvalid input\n");
+            }
+
+
+        }else{
+            System.out.println("\nUnauthorized access because you are not a student\n");
+        }
+    }
     public static void Students_courses_array(){
         for (int i = 0; i < students_courses.length; i++) {
 
@@ -655,10 +1184,12 @@ public class ICP_Project_Phase_One {
         for (int i = 0; i < students_courses_assignments.length; i++) {
 
             for (int j = 0; j < students_courses_assignments[i].length; j++) {
+                for (int k = 0; k < students_submitted_assignments[i][j].length; k++) {
 
-                // Print array element present at index i
-                System.out.println("\n");
-                System.out.print(students_courses_assignments[i][j] + " ");
+                    // Print array element present at index i
+                    System.out.println("\n");
+                    System.out.print(students_courses_assignments[i][j][k] + " ");
+                }
             }
         }
     }
@@ -729,13 +1260,15 @@ public class ICP_Project_Phase_One {
         registerCourse("Sylvie","Lombi","sylvie.lombi@ashesi.edu.gh","Chair3412","112");
         registerCourse("Sylvie","Lombi","sylvie.lombi@ashesi.edu.gh","Chair3412","Eng 112");
 
-        viewCourseByCode("Eng 112");
+        /*viewCourseByCode("Eng 112");
         viewCourseByCode("112");
         viewCourseByCode("105");
+
 
         viewCoursesByEmail("Claire","Makuyana","claire.makuyana@ashesi.edu.gh");
         viewCoursesByEmail("Lorraine","Makuyana","lorraine.makuyana@ashesi.edu.gh");
         viewCoursesByEmail("Sylvie","Lombi","sylvie.lombi@ashesi.edu.gh");
+        */
 
         addAssignment("laura.price@ashesi.edu.gh", "Winner1234","Eng 112","First quiz",
                 "The quiz is out of 30 and is worth 4% of your final grade.","31/01/2022","Quiz");
@@ -747,6 +1280,9 @@ public class ICP_Project_Phase_One {
         addAssignment("adams.family@ashesi.edu.gh","pass1234","112","First quiz",
                 "The quiz is out of 20 and is worth 1% of your final grade.","30/01/2022","Quiz");
 
+        addAssignment("adams.family@ashesi.edu.gh","pass1234","112","Second quiz",
+                "The quiz is out of 30 and is worth 5% of your final grade.","09/02/2022","Quiz");
+
         /*
         viewAssignmentsByCourse("Eng 112");
         viewAssignmentsByCourse("Eng 221");
@@ -754,11 +1290,12 @@ public class ICP_Project_Phase_One {
 
 
 
-        Students_courses_assignments_array();
+        //Students_courses_assignments_array();
+
         viewAssignmentsByEmail("claire.makuyana@ashesi.edu.gh","Claire","Makuyana");
         viewAssignmentsByEmail("lorraine.makuyana@ashesi.edu.gh","Lorraine","Makuyana");
         viewAssignmentsByEmail("sylvie.lombi@ashesi.edu.gh","Sylvie","Lombi");
-        */
+
 
         submitAssignment("Claire","Makuyana","claire.makuyana@ashesi.edu.gh","Book6501","Eng 221","Reflection One","claire_makuyana_small_is_beautiful_reflection");
         submitAssignment("Lorraine","Makuyana","lorraine.makuyana@ashesi.edu.gh", "Guest1234","112","First quiz","lorraine_makuyana_quiz_one.java");
@@ -768,11 +1305,18 @@ public class ICP_Project_Phase_One {
         viewSubmissions("jude.law@ashesi.edu.gh","Maxy67890","Eng 221","Reflection One");
         viewSubmissions("adams.family@ashesi.edu.gh","pass1234","Eng 331",null);
 
-        Students_courses_array();
+
         //Students_courses_assignments_array();
-        scoreAssignment("laura.price@ashesi.edu.gh","Winner1234","Eng 112","First quiz","claire.makuyana@ashesi.edu.gh","90/100");
-        scoreAssignment("jude.law@ashesi.edu.gh","Maxy67890","Eng 221","Reflection One","claire.makuyana@ashesi.edu.gh","96/100");
-        scoreAssignment("adams.family@ashesi.edu.gh","pass1234","Eng 331",null,"sylvie.lombi@ashesi.edu.gh","78/100");
+
+
+        scoreAssignment("laura.price@ashesi.edu.gh","Winner1234","Eng 112","First quiz","claire.makuyana@ashesi.edu.gh", "Claire","Makuyana","90/100");
+        scoreAssignment("jude.law@ashesi.edu.gh","Maxy67890","Eng 221","Reflection One","claire.makuyana@ashesi.edu.gh","Claire","Makuyana","96/100");
+        scoreAssignment("adams.family@ashesi.edu.gh","pass1234","Eng 331",null,"sylvie.lombi@ashesi.edu.gh", "Sylvie","Lombi","78/100");
+
+        viewAssignmentScore("lorraine.makuyana@ashesi.edu.gh","Guest1234","221","First quiz");
+        viewAssignmentScore("claire.makuyana@ashesi.edu.gh","Book6501","Eng 221","Reflection One");
+
+*/
 
     }
 
