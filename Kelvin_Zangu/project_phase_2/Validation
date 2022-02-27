@@ -1,0 +1,257 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Validation {
+	private String email, password, f_n, l_n, dob, yr_grp, gpa, courseName, courseCode, assName, subAssignment, assignmentScore, yesNo;
+	String todaysDateis = "04/02/22";
+	
+	HashMap<String, ArrayList<String>> details = new HashMap<String, ArrayList<String>>();
+	ArrayList<String> updatedProfile = new ArrayList<String>();
+	
+	ArrayList<String> admins = new ArrayList<String>();
+	ArrayList<String> faculty = new ArrayList<String>();
+	
+	HashMap<String, ArrayList<String>> coursesCreated = new HashMap<String, ArrayList<String>>(); // Creating a course
+	ArrayList<String> courseDetails = new ArrayList<String>();//email courseCode firstName lastName
+	
+	
+	
+	HashMap<String, ArrayList<String>> courseReg = new HashMap<String, ArrayList<String>>(); // Adding a student to a course
+	ArrayList<String> studInCourse = new ArrayList<String>();
+	
+	HashMap<String, ArrayList<String>> courseCodeAss = new HashMap<String, ArrayList<String>>(); // Adding a assignment to a course
+	HashMap<String, ArrayList<String>> studentAss = new HashMap<String, ArrayList<String>>(); // Assigning assignment to student
+	HashMap<String, String> submission = new HashMap<String, String>(); // Student submitting assignment
+	
+	HashMap<String, ArrayList<String>> assignmentScores = new HashMap<String, ArrayList<String>>(); //Contains email and assignmentAndScore
+	ArrayList<String> assignmentAndScore = new ArrayList<String>(); // Contains assignment and score
+
+	ArrayList<String> assDetails = new ArrayList<String>();// Assignment name and due date
+	
+	// ENCAPSULATION
+		/**
+		 * @return the email
+		 */
+		public String getEmail() {
+			return email;
+		}
+
+		/**
+		 * @param email the email to set
+		 */
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		/**
+		 * @return the password
+		 */
+		public String getPassword() {
+			return password;
+		}
+
+		/**
+		 * @param password the password to set
+		 */
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		/**
+		 * @return the f_n
+		 */
+		public String getF_n() {
+			return f_n;
+		}
+
+		/**
+		 * @param f_n the f_n to set
+		 */
+		public void setF_n(String f_n) {
+			this.f_n = f_n;
+		}
+
+		/**
+		 * @return the l_n
+		 */
+		public String getL_n() {
+			return l_n;
+		}
+
+		/**
+		 * @param l_n the l_n to set
+		 */
+		public void setL_n(String l_n) {
+			this.l_n = l_n;
+		}
+
+		/**
+		 * @return the dob
+		 */
+		public String getDob() {
+			return dob;
+		}
+
+		/**
+		 * @param dob the dob to set
+		 */
+		public void setDob(String dob) {
+			this.dob = dob;
+		}
+
+		/**
+		 * @return the yr_grp
+		 */
+		public String getYr_grp() {
+			return yr_grp;
+		}
+
+		/**
+		 * @param yr_grp the yr_grp to set
+		 */
+		public void setYr_grp(String yr_grp) {
+			this.yr_grp = yr_grp;
+		}
+
+		/**
+		 * @return the gpa
+		 */
+		public String getGpa() {
+			return gpa;
+		}
+
+		/**
+		 * @param gpa the gpa to set
+		 */
+		public void setGpa(String gpa) {
+			this.gpa = gpa;
+		}
+
+		/**
+		 * @return the courseName
+		 */
+		public String getCourseName() {
+			return courseName;
+		}
+
+		/**
+		 * @param courseName the courseName to set
+		 */
+		public void setCourseName(String courseName) {
+			this.courseName = courseName;
+		}
+
+		/**
+		 * @return the courseCode
+		 */
+		public String getCourseCode() {
+			return courseCode;
+		}
+
+		/**
+		 * @param courseCode the courseCode to set
+		 */
+		public void setCourseCode(String courseCode) {
+			this.courseCode = courseCode;
+		}
+
+		/**
+		 * @return the assName
+		 */
+		public String getAssName() {
+			return assName;
+		}
+
+		/**
+		 * @param assName the assName to set
+		 */
+		public void setAssName(String assName) {
+			this.assName = assName;
+		}
+		public String getSubAssignment() {
+			return subAssignment;
+		}
+		public void setSubAssignment(String subAssignment) {
+			this.subAssignment = subAssignment;
+		}
+		public String getAssignmentScore() {
+			return assignmentScore;
+		}
+		public void setAssignmentScore(String assignmentScore) {
+			this.assignmentScore = assignmentScore;
+		}
+		
+		public String getYesNo() {
+			return yesNo;
+		}
+		
+// ENCAPSULATION ENDS
+		public boolean login() {
+			System.out.println("-----Login-----");
+			takeEmail();
+			takePassword();
+			return(details.containsKey(getEmail()));
+		}
+		
+		public void takeEmail() {
+			Scanner rec = new Scanner(System.in);
+			System.out.println("Please enter your email: ");
+			this.email = rec.nextLine();
+		}
+		public void takePassword() {
+			Scanner rec = new Scanner(System.in);
+			System.out.println("Please enter your password: ");
+			this.password = rec.nextLine();
+		}
+		public void takeAssName() {
+			Scanner rec = new Scanner(System.in);
+			System.out.println("Please enter the name of the assignment: ");
+			this.assName = rec.nextLine();
+		}
+		public void takeCourseCode() {
+			Scanner rec = new Scanner(System.in);
+			System.out.println("Please enter the course code: ");
+			this.courseCode = rec.nextLine();
+		}
+		public  String letterGrades(String score) {
+		    String grade = null;
+		    if (score != null) {
+		        float floatValue = Float.parseFloat(score);
+		        grade = null;
+		        if (floatValue > 85)
+		            grade = "A+";
+		        else if (floatValue > 79 && floatValue < 85)
+		            grade = "A";
+		        else if (floatValue > 74 && floatValue < 80)
+		            grade = "B+";
+		        else if (floatValue > 69 && floatValue < 75)
+		            grade = "B";
+		        else if (floatValue > 64 && floatValue < 70)
+		            grade = "C+";
+		        else if (floatValue > 59 && floatValue < 65)
+		            grade = "C";
+		        else if (floatValue > 54 && floatValue < 60)
+		            grade = "D+";
+		        else if (floatValue > 49 && floatValue < 55)
+		            grade = "D";
+		        else if (floatValue < 50)
+		            grade = "E";
+		        else if (floatValue == 0)
+		            grade = "Incomplete";
+
+		    } else
+		        System.out.println("NA");
+
+		    return grade;
+		}
+		
+		public void yesOrNo() {
+			Scanner yesno = new Scanner(System.in);
+	        this.yesNo = yesno.nextLine();
+		}
+}
+
+
+
+
