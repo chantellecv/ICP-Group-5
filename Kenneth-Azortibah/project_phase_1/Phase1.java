@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.sound.sampled.SourceDataLine;
+
 public class Phase1 {
 
     // global data stores
@@ -11,8 +13,18 @@ public class Phase1 {
     public static HashSet <String> adminUsers = new HashSet <String>();
     public static HashSet <String> facultyMembers = new HashSet <String>();
 
+    public static HashMap<String, String> courses = new HashMap<String, String>();
+
     public static void main(String[] args) {
         System.out.println("Welcome to Kenneth's Canvas - Phase 1.");
+
+        System.out.println("Initializing dummy data...");
+
+        courses.put("404", "The Science of Errors");
+        courses.put("9", "'NO', A German Word");
+
+        System.out.println("Completed.");
+
 
         Scanner input = new Scanner(System.in);
         createAccount();
@@ -57,8 +69,11 @@ public class Phase1 {
 
 
         //isAdmin();
-        //makeFaculty();
-        //isFaculty();
+        makeFaculty();
+        isFaculty();
+
+        createCourse();
+        viewCourses();
     }
 
     public static void createAccount() {
@@ -189,5 +204,50 @@ public class Phase1 {
             return false;
         }
     }
+
+    // COURSE SYSTEM
+    public static void createCourse() {
+        System.out.println("So you want to create a course.");
+        System.out.println("First, let's check to see if you're faculty.");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Your email address, please.");
+        String email = input.nextLine();
+
+        if (facultyMembers.contains(email)) {
+            System.out.println("Access Approved.");
+            // course add code here
+            System.out.println("What's the course code?");
+            String code = input.nextLine();
+            System.out.println("What about the course name?");
+            String name = input.nextLine();
+
+            courses.put(code, name);
+            System.out.println("Course created successfully!");
+
+        } else {
+            System.out.println("Access Denied");
+        }
+    }
+
+    public static void viewCourses() {
+        Scanner input = new Scanner(System.in);
+        int loop = 0;
+        while (loop < 3) {
+            System.out.println("Do you want to view courses? (y/n)");
+            String answer = input.next();
+            if (answer.equals("y")) {
+                loop = 7;
+                System.out.println(courses);
+            } else if (answer.equals("n")) {
+                loop = 7;
+                System.out.println("Understandable. Have a nice day.");
+            } else {
+                System.out.println("Your input should be 'y' or 'n'.");
+            }
+        }
+    }
+
+    // Add Assignments -  pass. 
+    // I do not feel comfortable building any more rickety structures :(
 
 }
