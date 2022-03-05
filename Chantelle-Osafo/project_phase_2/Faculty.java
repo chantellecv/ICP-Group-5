@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Faculty extends CanvasPerson{
+public class Faculty extends CanvasPerson implements FacultyInterface{
 
     int score = 0;
     String courseCode;
@@ -8,8 +8,6 @@ public class Faculty extends CanvasPerson{
     public static String name;
 
     ArrayList<Integer> scores = new ArrayList<>();
-
-    
 
     ArrayList<String> courseCodes = new ArrayList<String>();
     ArrayList<String> courseNames = new ArrayList<String>();
