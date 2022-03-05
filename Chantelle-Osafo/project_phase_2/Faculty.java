@@ -8,10 +8,9 @@ public class Faculty extends CanvasPerson{
     public static String name;
 
     ArrayList<Integer> scores = new ArrayList<>();
-    ArrayList<String> assignment = new ArrayList<>();
+
     
-    ArrayList<String> creatorNames = new ArrayList<String>();
-    ArrayList<String> creatorEmails = new ArrayList<String>();
+
     ArrayList<String> courseCodes = new ArrayList<String>();
     ArrayList<String> courseNames = new ArrayList<String>();
     ArrayList<String> submitterEmails = new ArrayList<String>();
@@ -45,8 +44,6 @@ public class Faculty extends CanvasPerson{
             System.out.println("You have successfully created the course " + courseCode + ": " + courseName);
         }
     }
-
-    
     
     public void viewSubmissions(){
         if (login() == true && isFaculty()==true && creatorEmails.contains(email)){

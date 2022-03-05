@@ -1,21 +1,7 @@
 public class Assignment{
 
-    public void addAssignment(){
-    }
-
-    public void viewAssignmentsByCourse(){
-    }
-
-    public void viewAssignmentsByEmail(){
-    }
 
     public void submitAssignment(){
-    }
-
-    public void viewSubmissions(){
-    }
-
-    public void scoreAssignment(){
     }
 
     public void viewAssignmentScore(){

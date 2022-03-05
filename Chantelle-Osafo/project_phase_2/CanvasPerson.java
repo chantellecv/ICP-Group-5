@@ -8,20 +8,25 @@ public class CanvasPerson implements CanvasPersonInterface{
 
 
     private String fName;
-    private String lName;P
+    private String lName;
     private String dOB;
 
+    ArrayList<String> assignment = new ArrayList<>();
     ArrayList<String> emailList = new ArrayList<String>();
     ArrayList<String> adminList = new ArrayList<String>();
-    ArrayList<String> passwordList = new ArrayList<String>();
     ArrayList<String> firstName = new ArrayList<String>();
     ArrayList<String> lastName = new ArrayList<String>();
-    ArrayList<Integer> yearGroup = new ArrayList<Integer>();
     ArrayList<Float> currentGPA = new ArrayList<Float>();
+    
+    ArrayList<Integer> yearGroup = new ArrayList<Integer>();
     ArrayList<String> dateOfBirth = new ArrayList<String>();
     ArrayList<String> facultyList = new ArrayList<String>();
     ArrayList<String> courseCodes = new ArrayList<String>();
     ArrayList<String> courseNames = new ArrayList<String>();
+
+    ArrayList<String> passwordList = new ArrayList<String>();
+    ArrayList<String> creatorNames = new ArrayList<String>();
+    ArrayList<String> creatorEmails = new ArrayList<String>();
 
 
     public void createAccount(){
@@ -35,11 +40,8 @@ public class CanvasPerson implements CanvasPersonInterface{
         adminList.add(email);
         passwordList.add(password);
         System.out.println("You have successfully created your account.");
-
     }
-
-
-    
+ 
     public boolean login(){   
 
         System.out.print("Welcome to the login page. Please enter your email address: \n");  
@@ -109,7 +111,6 @@ public class CanvasPerson implements CanvasPersonInterface{
         return result;
     }
 
-
     public boolean isFaculty(){
         System.out.println("Please enter the email address to be checked being faculty: ");
         email = sc.nextLine();
@@ -126,30 +127,29 @@ public class CanvasPerson implements CanvasPersonInterface{
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("This item does not exist. Please try a different input.");
             }
-            
         }
     }
 
     public void setNotificationPreferences(){
-        boolean response1, response2, response3;
+        boolean r1, r2, r3;
         System.out.println("Would you like to receive an email when an assignment is posted?");
-        response1 = sc.nextBoolean();
+        r1 = sc.nextBoolean();
         System.out.println("Would you like to receive an email when an assignment is graded?");
-        response2 = sc.nextBoolean();
+        r2 = sc.nextBoolean();
         System.out.println("Would you like to receive an email after successfully registering for a course?");
-        response3 = sc.nextBoolean();
+        r3 = sc.nextBoolean();
 
-        if (response1 == true) {
+        if (r1 == true) {
             System.out.println("You will receive emails for new assignments");
         } else {
             System.out.println("You will not receive emails for new assignments");
         }
-        if (response2 == true) {
+        if (r2 == true) {
             System.out.println("You will receive emails for grades posted");
         } else {
             System.out.println("You will not receive emails for grades posted");
         }
-        if (response3 == true) {
+        if (r3 == true) {
             System.out.println("You will receive emails for successful course registerations");
         } else {
             System.out.println("You will receive not emails for successful course registerations");

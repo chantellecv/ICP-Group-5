@@ -1,9 +1,15 @@
 import java.util.*;
 
-public class Student extends CanvasPerson{
+public class Student extends CanvasPerson implements StudentInterface{
 
-    ArrayList<ArrayList<String>> assignments = new ArrayList<>();
+    String courseCode;
+    
     ArrayList<String> courseNames = new ArrayList<String>();
+    ArrayList<String> submitterEmails = new ArrayList<String>();
+    ArrayList<ArrayList<String>> assignments = new ArrayList<>();
+    ArrayList<String> assignmentSubmissions = new ArrayList<String>();
+
+    ArrayList<ArrayList<String>> courseSubmissions = new ArrayList<>();
     ArrayList<ArrayList<String>> completeCourseMembersNames = new ArrayList<>();
     ArrayList<ArrayList<String>> completeCourseMembersEmails = new ArrayList<>();
     ArrayList<ArrayList<ArrayList<String>>> courseAssignments = new ArrayList<>();
@@ -85,4 +91,30 @@ public class Student extends CanvasPerson{
         }
     }
 
+    public void submitAssignment(){
+        if (login() == true){
+            System.out.println("Please enter your email to submit your assignment:");
+            email = sc.nextLine();
+            submitterEmails.add(email);
+
+            System.out.println("Please enter the course code:");
+            courseCode = sc.nextLine();
+
+            System.out.println("Please enter the assignment name:");
+            String assignmentName = sc.nextLine();
+
+            System.out.println("Please post your submission:");
+            assignmentSubmissions.add(sc.nextLine());
+
+            // int index = courseCodes.indexOf(courseCode);
+            
+            int ind = 0;
+            for (int j = 0; j < courseAssignments.size(); j++){
+                if (assignment.contains(assignmentName)){
+                    ind = assignments.indexOf(assignment);
+                }
+            }
+            courseSubmissions.add(ind, assignmentSubmissions);
+        }
+    }
 }
