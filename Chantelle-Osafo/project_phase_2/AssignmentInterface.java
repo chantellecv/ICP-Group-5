@@ -10,4 +10,6 @@ public interface AssignmentInterface  {
 
     public void viewAssignmentGrades();
 
+    public void viewAllAssignmentGrades();
+
 }
