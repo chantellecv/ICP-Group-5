@@ -1,0 +1,428 @@
+#include <iostream>
+using namespace std;
+
+class Projectphase_six {
+		
+	/**
+	public:
+		//function can be modified to access various data structures
+			static void iterator(){
+				for(int j=0;j<5;j++){
+
+					cout<<students_emails[j] <<"\n";
+					cout<<students_passwords[j] <<"\n";
+
+				}
+			}
+	**/		
+
+		class StudentCanvas_applications{
+
+			public:
+
+				static string students_emails [5] = {"claire.makuyana@ashesi.edu.gh","george.bush@ashesi.edu.gh","sylvie.lombi@ashesi.edu.gh","luis.mazondi@ashesi.edu.gh","lorraine.makuyana@ashesi.edu.gh"};
+
+				static string students_passwords [5] = {"Book6501","ChaseAsher1507","Chair3412","Luis23445","Guest1234"};
+
+				static string profiles [5] [7];
+				//function no.1
+				//allows canvas users to create accounts so that they can successfully use canvas
+				static void createAccount(){
+					//initialising instance variables
+					string email;
+					string pass;
+
+					for(int i=0;i<5;i++){
+						int j=0;
+						//access the student information saved in the data structures and add it to 
+						//the (students') profiles data structure to successfully create a canvas account
+						email=students_emails[i];
+						profiles[i][j]=email;
+
+						pass=students_passwords[i];
+						j+=1;
+						profiles[i][j]=pass;
+
+						//notify the user that their canvas account has been successfully created
+						cout<<"\n\nYour email: "<< email << " and your password: "<< pass << " have been successfully saved\n";
+						
+					}
+				}
+
+				//function no.2
+				//function that allows a student to log into their canvas account
+				static bool login(string email, string pass){
+					//initialising instance variable/s
+					bool tracker=true;
+					
+					for(int i=0;i<sizeof(students_emails);i++){
+						//access student information from the (students') profiles data structure
+						int j=0;
+						string email_iteration = profiles[i][j];
+						j+=1;
+						string pass_iteration = profiles[i][j];
+						try
+						{
+						//check if the provided details belong to a student before they are either given
+						//authorization to log into their respective canvas account or denied access
+							if((email.compare(email_iteration)==0) && (pass.compare(pass_iteration)==0)){
+								tracker=true;
+								break;
+							}else if((email.compare(email_iteration)!=0) && (pass.compare(pass_iteration)!=0)){
+								tracker=false;
+								
+							}
+						}catch(...){
+
+							cout<<"Exception caught, please check the variables email_iteration and pass_iteration declared earlier\n";
+						}	
+					}
+					//a student successfully logs into their Canvas account
+					if(tracker){
+						cout<<"\nThe user " << email << " has successfully logged into canvas";
+						return true;
+					//user cannot log into Canvas because the provided details are incorrect
+					}else if(!tracker){
+						cout<<"\nThe user " << email << " cannot log into canvas because provided details are false ";
+						return false;
+					//user cannot log into Canvas because they are not recognized as a student at Ashesi
+					} else{
+						cout<<"\nThe user " << email << " does not exist from the Ashesi student database";
+						return false;
+					}
+				}
+
+				//function no.3
+				//function that updates profile details of a Canvas User
+				static void updateProfile(String email, string pass, string first_name,
+												string last_name, string year_group,string gpa,
+												string dob) {
+					//checks if a user is an Ashesi student or not
+					if(StudentCanvas_applications::login(email, pass)){
+
+						for(int i=0;i<sizeof(students_emails);i++){
+							//access student information from the (students') profiles data structure
+						
+							int j=0;
+							string email_iteration = profiles[i][j];
+							j+=1;
+							string pass_iteration = profiles[i][j];
+
+							//check if the provided details belong to a student before they are either given
+						//authorization to update their respective canvas profiles or denied access to do so
+							if((email.compare(email_iteration)==0) && (pass.compare(pass_iteration)==0)){
+								j+=1;
+								profiles[i][j] = first_name;
+								j+=1;
+								profiles[i][j] = last_name ;
+								j+=1;
+								profiles[i][j] = year_group;
+								j+=1;
+								profiles[i][j] = gpa;
+								j+=1;
+								profiles[i][j] = dob;
+							}
+						}
+					//user is denied access to update a Canvas profile because the provided details are incorrect
+					}else{
+						cout<<"Provided details are incorrect, hence you cannot update any profile details\n";
+					}	
+				
+				}
+
+				//function no.4
+				//function allows a user to view their Canvas profile
+				static void viewProfile(string email, string pass){
+
+					//initializing instance variable/s
+					int tracker=0;
+
+					if(StudentCanvas_applications::login(email,pass)){
+
+						for(int i=0;i<sizeof(students_emails);i++){
+							//access student information from the (students') profiles data structure
+						
+							int j=0;
+							string email_iteration = profiles[i][j];
+							j+=1;
+							string pass_iteration = profiles[i][j];
+
+							//check if the provided details belong to a student before they are either given
+						//authorization to view their respective canvas profiles or denied access to do so
+							
+							if((email.compare(email_iteration)==0) && (pass.compare(pass_iteration)==0)){
+								tracker=i;
+								break;
+							}	
+						}
+						for (int k = 0; k <7; k++) {
+							//accessing student information from the (students') profiles data structure
+					
+							string item = profiles[tracker][k];
+							int count = k+1;
+							try{
+								if (item==null) {
+
+									profiles[tracker][k]= "NA";
+									//displays N/A if the data structure for the user's info is empty
+									cout<<"\n\nThe profile details of element "<< count << " of the profile is: " << profiles[tracker][k]"\n";
+									profiles[tracker][k]=null;
+
+								}else {
+									//displays the profile details of the user
+									cout<<"\n\nThe profile details of element " << count << " of the profile is: " << item"\n";
+								}
+							}catch(...){
+
+								cout<<"Check the variable item that has been declared earlier"
+							}	
+
+						}
+					//denies the user access to Canvas profile details since the provided details are incorrect
+					}else{
+						cout<<"Provided details are incorrect, hence you cannot update any profile details\n"
+					}
+
+
+		};
+
+		class AdminCanvas_applications {
+
+			public:
+				static String administration [3] = {"mateko.collins@ashesi.edu.gh","george.collins@ashesi.edu.gh","brian.greens@ashesi.edu.gh"};
+
+				//function no.5
+				static bool isAdmin(string email){
+
+				int tracker = 0;
+				for (int i = 0; i < sizeof(administration); i++) {
+					//access admin member's information from the administration data structure
+					
+					int j=0;
+					string email_iteration = administration[i];
+					//check if the provided details belong to an admin member
+					if (email.compare(email_iteration)==0) {
+						tracker = 1;
+						break;
+					}
+
+				}
+				if (tracker == 1) {
+					//notifies the user that they are an admin members
+					cout<<"\nThe user " << email << " exists as an admin from the database\n";
+					return true;
+				} else {
+					//notifies the user that they are not an admin member
+					cout<<"\nThe user " << email << " does not exist from the database as an admin\n";
+					return false;
+				}
+			}
+
+		};
+
+		class FacultyCanvas_applications {
+
+			public:
+				//data structures that store the information to be used in the following declared functions
+
+				static String course_names [3] = {"Eng 112","Eng 221","112"};
+
+				static String course_codes_names [3] ={"Multivariable Calculus","Leadership III","Data Structures"};
+
+				static String faculty_profiles [3] [2];
+
+				static String course_creators [3];
+
+				//function no.6
+				//function makes a user a faculty member as long as they are not a student or admin member
+				static void makeFaculty(string email,string pass,string name){
+					//initializing instance variable/s
+					int tracker=0;
+					int index=0;
+					//check if the provided details belong to a student or admin member
+					if ((StudentCanvas_applications::login(email,pass)==false) && (AdminCanvas_applications::isAdmin(email)==false)){
+
+						string response;
+						//Requests permission from a user to be recognised as a faculty member when they access Canvas
+						cout<<"\nDo you want to be a faculty member.Type 'Y' to agree or 'N' to disagree: \n";
+						cin>>response;
+						response=toUpper(response);
+						try{
+							if (response.compare("Y")==0)  {
+								int code=0;
+								//Requests for a specific code before a user is given special Canvas access as a faculty member 
+								cout<<"\nSince your above response was 'Y', enter the administration code to proceed the registration process: \n");
+								cin>>code;
+
+								if (code == 2022) {
+									
+									for (int i = 0; i < 3; i++) {
+										// access information from the faculty profiles data structure
+										string faculty_iteration_email = faculty_profiles[i][0];
+										String faculty_iteration_name = faculty_profiles[i][1];
+
+								//check if a user already exists as a faculty member or not before registration commences
+								if((email.compare(email_iteration)==0) && (pass.compare(pass_iteration)==0)){
+									j+=1;
+										if ((faculty_iteration_email == null) && (faculty_iteration_name == null)) {
+											tracker = 1;
+											index=i;
+											break;
+										}
+									}
+									//successfully registers a user as a faculty member
+								if (tracker == 1) {
+									faculty_profiles[index][0] = email;
+									faculty_profiles[index][1] = name;
+									cout<<"\nThe registration process was successful\n";
+								}
+								//denies registration because provided details are incorrect
+								}else {
+									cout<<"\nThe administration code is incorrect, try again to proceed to the registration process\n";
+								}
+
+							}
+						}catch(...){
+							cout<<"The variable response might be an illegal data type\n"
+						}	
+						
+					}
+
+				}
+
+				//function no.7
+				//function checks if a user is a faculty member or not
+				static bool isFaculty(string email){
+
+					//initialises instance variable/s
+					int tracker = 0;
+
+					for (int i = 0; i < sizeof(faculty_profiles); i++) {
+
+						//accesses faculty information from the faculty data structure
+						string email_iteration = faculty_profiles[i][0];
+
+						//checks if the user is a faculty member or not
+						if (email.compare(email_iteration)==0) {
+							tracker = 1;
+							break;
+						}
+
+					}
+					if (tracker == 1) {
+						//user is confirmed as a faculty member
+						cout<<"\nThe user " << email << " exists as a faculty member from the database\n";
+						return true;
+						//user is confirmed as a non-faculty member
+					} else {
+						cout<<"\nThe user " << email << " does not exist from the database as a faculty member\n";
+						return false;
+					}
+
+				}
+
+				//function no.8
+				//function creates a course on the Canvas platform
+				static void createCourse(string email, string pass,
+										string code,string course_name){
+					//initialises instance variable/s						 
+					int tracker=0;
+
+					//checks to see if a user is a student or not
+					if(!(StudentCanvas_applications::login(email, pass))){
+
+						//checks to see if a user is a faculty member or not
+						if(FacultyCanvas_applications::isFaculty(email)) {
+
+							for (int i = 0; i < sizeof(faculty_profiles); i++) {
+								//accesses faculty profiles data structure information
+								string faculty_iteration = faculty_profiles[i][0];
+
+								//grants access to the next stage if the provided details align with any faculty info details
+								if (faculty_iteration.compare(email)==0) {
+									int j;
+									for(j=0;j< sizeof(faculty_profiles[i]);j++) {
+										string intext_faculty_iteration = faculty_profiles[i][j];
+
+										//grants access to the next stage if the information accessed from the faculty profile 
+										//data structure is null
+										if (intext_faculty_iteration == null) {
+											tracker=1;
+											break;
+										}
+									}
+									if(tracker==1){
+										//successfully creates a course for the faculty member and stores/updates details of 
+										//their course name and course code in the faculty profiles data structure
+
+										string item = course_name + "-" + code;
+										faculty_profiles[i][j]=item;
+										course_creators[i]=user_email;
+										cout<<"\nCongratulations " << user_email << " you have successfully created the " << course_name << " course with a course code of " << code << "\n";
+									}
+								}
+
+							}
+						//user cannot create a course because they are not found in the faculty member's data structure
+						} else {
+							cout<<"\nYou cannot create a course because your details are not in the faculty database\n";
+						}
+					//user cannot create a course because they are recognised as a student	
+					} else {
+						cout<<"\nYou cannot create a course because you are a student";
+					}
+				}
+
+
+			}
+		};	
+		
+	};	
+
+	int main()
+
+	{ 
+		//invoking static function no.1 from the StudentCanvas_applications class
+		StudentCanvas_applications::createAccount();
+
+
+		//invoking static function no.2 from the StudentCanvas_applications class
+		StudentCanvas_applications::login("george.bush@ashesi.edu.gh","ChaseAsher1507");
+		StudentCanvas_applications::login("lorraine.makuyana@ashesi.edu.gh","Book6501");
+		StudentCanvas_applications::login("lorraine.makuyana@ashesi.edu.gh","Guest1234");
+
+		//invoking static function no.3 from the StudentCanvas_applications class
+		StudentCanvas_applications::updateProfile("lorraine.makuyana@ashe si.edu.gh","Guest1234","Lorraine","Makuyana","2022", "3.7","1998");
+        StudentCanvas_applications::updateProfile("asher.chakupa@ashesi.edu.gh","asher3412","Asher","Chakupa","2024","3.9","2000");
+
+
+		//invoking static function no.4 from the StudentCanvas_applications class
+        StudentCanvas_applications::viewProfile("george.bush@ashesi.edu.gh","ChaseAsher1507");
+        StudentCanvas_applications::viewProfile("lorraine.makuyana@ashesi.edu.gh", "Guest1234");
+
+
+		//invoking static function no.5 from the AdminCanvas_applications class
+		AdminCanvas_applications::sAdmin("claire.makuyana@ashesi.edu.gh");
+        AdminCanvas_applications::isAdmin("mateko.collins@ashesi.edu.gh");
+
+
+		//invoking static function no.6 from the FacultyCanvas_applications class
+        FacultyCanvas_applications::isFaculty("Clive.makuyana@ashesi.edu.gh");
+		FacultyCanvas_applications::isFaculty("mateko.collins@ashesi.edu.gh");
+		
+
+		//invoking static function no.7 from the FacultyCanvas_applications class
+		FacultyCanvas_applications::makeFaculty("laura.price@ashesi.edu.gh","Winner1234","DR Price");
+        FacultyCanvas_applications::makeFaculty("jude.law@ashesi.edu.gh","Maxy67890","DR Law");
+        FacultyCanvas_applications::makeFaculty("adams.family@ashesi.edu.gh","pass1234","DR Adams");
+
+	
+		//invoking static function no.8 from the facultyCanvas_applications class
+		FacultyCanvas_applications::createCourse("laura.price@ashesi.edu.gh","Winner1234","Eng 112","Multivariable Calculus");
+        FacultyCanvas_applications::createCourse("jude.law@ashesi.edu.gh","Maxy67890","Eng 221","Leadership III");
+        FacultyCanvas_applications::createCourse("adams.family@ashesi.edu.gh","pass1234","112","Data Structures");
+
+		//can modify this function to check if infomation has been successfully edited in other data structures
+		//Projectphase_six::iterator();
+		return 0;
+	}
