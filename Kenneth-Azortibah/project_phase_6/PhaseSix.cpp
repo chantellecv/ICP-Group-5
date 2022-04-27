@@ -13,8 +13,6 @@ bool isFaculty();
 void createCourse();
 void viewCourses();
 
-// File Stream Object
-
 
 class TheClass{
     public:
@@ -47,32 +45,52 @@ int main()
 // 1 - Create Account Function
 void createAccount()
 {
-    string email;
-    string password;
+    string email, password;
     ofstream accountFile("accounts.txt");
 
     cout << "Create your account." << endl;
+
     cout << "Enter your email address below:\n";
     cin >> email;
     cout << "Set a secure password:\n";
     cin >> password;
 
+    cout << "Connecting..."
     if(accountFile.is_open()) {
         cout << "Connected to data store." << endl;
         accountFile << email << ' ' << password << endl;
-        cout << "Account created!";
+        cout << "Account created!\n";
     } else {
-        cout << "Failed to connect to data store." << endl;
+        cout << "Failed to connect to data store.\n" << endl;
     }
     
     accountFile.close();
-
-
 }
 
-
-
 // 2 - Log In Function
+bool logIn()
+{
+    string email, password;
+    string emailData, passwordData;
+    ifstream checkFile("accounts.txt");
+
+    cout << "Log In." << endl;
+
+    cout << "Enter your email address below:\n";
+    cin >> email;
+    cout << "Enter your password below:\n";
+    cin >> password;
+
+    while(checkFile >> emailData >> passwordData) {
+        if (email == emailData && password == passwordData) {
+            cout << "Log In Successful. Welcome, " << email << ".\n"
+            return true;
+        } else {
+            cout << "Your account doesn't exist.\n"
+            return false;
+        }
+    }
+}
 
 // 3 - Update Profile Function
 
