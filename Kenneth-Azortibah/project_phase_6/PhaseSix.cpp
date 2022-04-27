@@ -13,20 +13,36 @@ bool isFaculty();
 void createCourse();
 void viewCourses();
 
-
-class TheClass{
+class TheClass {
     public:
-        TheClass(){
-            cout << "so this is a constructor." << endl;
+        TheClass() {
+            cout << "This is a constructor." << endl;
         };
-        string name;
+        void sayHey() {
+            cout << "HEY.";
+        }
 };
+class TheSecondClass {
+    public:
+        TheSecondClass() {
+            cout << "This is another contructor." << endl;
+        };
+        void sayHey() {
+            cout << "heyyo";
+        }
+}
 
 // Main Function
 int main()
 {
-    cout << "Let's do this.";
-    TheClass classObject;    
+    cout << "Hello world :). Welcome to Canvas... sort of.";
+
+    TheClass classObject;
+    classObject.sayHey();
+
+    TheSecondClass anotherClassObject;
+    anotherClassObject.sayHey();
+
 
     return 0;
 }
@@ -72,10 +88,10 @@ bool logIn()
 
     while(checkFile >> emailData >> passwordData) {
         if (email == emailData && password == passwordData) {
-            cout << "Log In Successful. Welcome, " << email << ".\n"
+            cout << "Log In Successful. Welcome, " << email << ".\n";
             return true;
         } else {
-            cout << "Your account doesn't exist.\n"
+            cout << "Your account doesn't exist.\n";
             return false;
         }
     }
@@ -112,7 +128,7 @@ void updateProfile()
 void viewProfile()
 {
     string name, yearGroup, cGPA, birthday;
-    ofstream printProfile("profile.txt");
+    ifstream printProfile("profile.txt");
 
     cout << "User profiles: \n";
 
@@ -123,9 +139,88 @@ void viewProfile()
 }
 
 // 5 - Make Faculty Function
+void makeFaculty()
+{
+    string email;
+
+    ofstream makeFacFile("faculty.txt");
+
+    cout << "Let's make you faculty!\n";
+        << "Enter your email below:" << endl;
+    cin >> email;
+
+    if(makeFacFile.is_open()) {
+        makeFacFile << email << endl;
+        cout << "You're faculty :)";
+    } else {
+        cout << "There was an error accessing the database.";
+    }
+
+}
 
 // 6 - Check if Faculty Function
+bool isFaculty()
+{
+    string email;
+    string emailData;
+    ifstream checkFacFile("faculty.txt");
+
+    cout << "Let's see if you're faculty." << endl;
+
+    cout << "Enter your email address below:\n";
+    cin >> email;
+
+    while(checkFacFile >> emailData) {
+        if (email == emailData) {
+            cout << "You're faculty.\n";
+            return true;
+        } else {
+            cout << "You're... unemployed?\n";
+            return false;
+        }
+    }
+}
 
 // 7 - Create Course Function
+void createCourse()
+{
+    ofstream courseFile("course.txt");
+    ifstream facultyFile("faculty.txt");
+
+    string email, facultyEmail;
+    int code;
+    string name;
+
+    cout << "Let's verify if you're faculty:\n";
+    cin >> email;
+
+    while(facultyFile >> facultyEmail) {
+        if(email == facultyEmail) {
+            cout << "Access approved." << endl
+                << "What's the name of the new course?";
+            cin >> name;
+            cout << "What's the course code?\n";
+            cin >> code;
+
+            courseFile << code << name << endl;
+
+            cout << "Your course has been added.\n";
+        } else {
+            cout << "Access denied. Who are you?\n";
+        }
+    }
+    courseFile.close();
+}
 
 // 8 - View Courses Function
+void viewCourses()
+{
+    string name, code;
+    ifstream viewCourse("course.txt");
+
+    cout << "View courses: \n";
+
+    while (viewCourse >> name >> code) {
+        cout << name << code << endl;
+    }
+}
