@@ -5,6 +5,7 @@
         "Abeiku-Yorke/project_phase_1"
     ],
     "files.associations": {
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "iostream": "cpp"
     }
 }

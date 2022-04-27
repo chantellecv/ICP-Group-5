@@ -30,7 +30,7 @@ class TheSecondClass {
         void sayHey() {
             cout << "heyyo";
         }
-}
+};
 
 // Main Function
 int main()
@@ -60,7 +60,7 @@ void createAccount()
     cout << "Set a secure password:\n";
     cin >> password;
 
-    cout << "Connecting..."
+    cout << "Connecting...";
     if(accountFile.is_open()) {
         cout << "Connected to data store." << endl;
         accountFile << email << ' ' << password << endl;
@@ -112,7 +112,7 @@ void updateProfile()
     cout << "Your birthday:" << endl;
     cin >> birthday;
 
-    cout << "Connecting..."
+    cout << "Connecting...";
     if(proFile.is_open()) {
         cout << "Connected to data store." << endl;
         proFile << name << ' ' << yearGroup << ' ' << cGPA << ' ' << birthday << endl;
@@ -145,7 +145,7 @@ void makeFaculty()
 
     ofstream makeFacFile("faculty.txt");
 
-    cout << "Let's make you faculty!\n";
+    cout << "Let's make you faculty!\n"
         << "Enter your email below:" << endl;
     cin >> email;
 
@@ -201,7 +201,6 @@ void createCourse()
             cin >> name;
             cout << "What's the course code?\n";
             cin >> code;
-
             courseFile << code << name << endl;
 
             cout << "Your course has been added.\n";
