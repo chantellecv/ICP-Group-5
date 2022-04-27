@@ -3,5 +3,8 @@
         "Kenneth-Azortibah/project_phase_1",
         "Claire_Makuyana/project_phase_1",
         "Abeiku-Yorke/project_phase_1"
-    ]
+    ],
+    "files.associations": {
+        "xstring": "cpp"
+    }
 }

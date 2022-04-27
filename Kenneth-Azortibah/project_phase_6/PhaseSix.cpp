@@ -25,20 +25,9 @@ class TheClass{
 // Main Function
 int main()
 {
-    ofstream testFile("test.txt");
-
-    if(testFile.is_open()) {
-        cout << "Connected to data store." << endl;
-        testFile << "I want to die.\n";
-    } else {
-        cout << "Failed to connect to data store." << endl;
-    }
-    
-    testFile.close();
-
-
     cout << "Let's do this.";
     TheClass classObject;    
+
     return 0;
 }
 
@@ -93,8 +82,45 @@ bool logIn()
 }
 
 // 3 - Update Profile Function
+void updateProfile()
+{
+    string name, yearGroup, cGPA, birthday;
+    ofstream proFile("profile.txt");
+
+    cout << "Your name:" << endl;
+    cin >> name;    
+    cout << "Your year group:" << endl;
+    cin >> yearGroup;
+    cout << "Your current GPA:" << endl;
+    cin >> cGPA;
+    cout << "Your birthday:" << endl;
+    cin >> birthday;
+
+    cout << "Connecting..."
+    if(proFile.is_open()) {
+        cout << "Connected to data store." << endl;
+        proFile << name << ' ' << yearGroup << ' ' << cGPA << ' ' << birthday << endl;
+        cout << "Account created!\n";
+    } else {
+        cout << "Failed to connect to data store.\n" << endl;
+    }
+    
+    proFile.close();
+}
 
 // 4 - View Profile Function
+void viewProfile()
+{
+    string name, yearGroup, cGPA, birthday;
+    ofstream printProfile("profile.txt");
+
+    cout << "User profiles: \n";
+
+    while (printProfile >> name >> yearGroup >> cGPA >> birthday) {
+        cout << name << yearGroup << cGPA << birthday << endl;
+    }
+    
+}
 
 // 5 - Make Faculty Function
 
